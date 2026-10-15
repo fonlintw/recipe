@@ -90,6 +90,11 @@ html:not([lang="en"]) .lang-en { display: none !important; }
   background: none; border: 0; padding: 6px 4px; font-family: var(--font-serif); font-size: 16px; color: var(--text);
 }
 .lang-toggle:hover { color: var(--accent); text-decoration: underline; }
+.search-toggle {
+  background: none; border: 0; padding: 6px; color: var(--text); display: grid; place-items: center; border-radius: 50%;
+}
+.search-toggle svg { width: 22px; height: 22px; }
+.search-toggle:hover { color: var(--accent); }
 .header-sep { width: 1px; height: 24px; background: var(--line-strong); }
 .main-nav { display: flex; gap: 40px; padding-bottom: 16px; }
 .main-nav a {
