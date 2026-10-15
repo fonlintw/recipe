@@ -334,6 +334,7 @@ const ICONS = {
     '.section-head', '.filters',
     '.article .draft-note', '.article h2', '.article h3', '.article section > p', '.article section > ul',
     '.article .info-card', '.article .table-wrap', '.article .spec-recipe',
+    '.article .figure', '.article .brand-row', '.article .flow-steps',
   ].join(',');
   function tagStatic() {
     document.querySelectorAll(AUTO).forEach((el) => {

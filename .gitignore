@@ -2,3 +2,5 @@
 .DS_Store
 # Claude 本機設定（每台電腦不同）
 .claude/settings.local.json
+# 原始高解析圖檔（網站只使用 assets/img/brand 裡縮小過的版本）
+DLC/
