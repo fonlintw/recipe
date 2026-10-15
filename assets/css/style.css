@@ -636,18 +636,21 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
 .active-filters.show { transform: none; opacity: 1; visibility: visible; pointer-events: auto; }
 .af-inner { display: flex; align-items: center; gap: 12px; padding-top: 8px; padding-bottom: 8px; }
 .af-label {
-  flex-shrink: 0; font-family: var(--font-caps); font-size: 12px; font-weight: 700;
+  flex-shrink: 0; display: inline-flex; align-items: center; gap: 3px; border: 0; background: none; padding: 4px 0; font-family: var(--font-caps); font-size: 12px; font-weight: 700;
   letter-spacing: .1em; text-transform: uppercase; color: var(--accent);
 }
 .af-chips { flex: 1; min-width: 0; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
 .af-chips::-webkit-scrollbar { display: none; }
 .af-chip {
-  flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px;
-  border: 0; border-radius: 999px; padding: 5px 10px 5px 13px;
-  background: var(--navy); color: #fff; font-size: 13px; white-space: nowrap;
+  flex-shrink: 0; display: inline-flex; align-items: center;
+  border-radius: 999px; background: var(--navy); color: #fff; font-size: 13px; white-space: nowrap;
 }
-.af-chip svg { width: 13px; height: 13px; opacity: .8; }
-.af-chip:hover svg { opacity: 1; }
+.af-chip-label { border: 0; background: none; color: inherit; padding: 5px 4px 5px 13px; font-size: inherit; }
+.af-chip-x {
+  border: 0; background: none; color: inherit; padding: 5px 10px 5px 4px; display: grid; place-items: center; opacity: .75;
+}
+.af-chip-x:hover { opacity: 1; }
+.af-chip-x svg { width: 13px; height: 13px; }
 .af-clear {
   flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
   border: 1px solid var(--line-strong); background: #fff; color: var(--text);
@@ -658,5 +661,20 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
 @media (max-width: 640px) {
   .af-inner { gap: 8px; }
   .af-label { font-size: 11px; letter-spacing: .04em; }
-  .af-chip { font-size: 12px; padding: 4px 9px 4px 11px; }
+  .af-chip { font-size: 12px; }
+  .af-chip-label { padding: 4px 3px 4px 11px; }
+  .af-chip-x { padding: 4px 9px 4px 3px; }
+}
+
+.af-label svg { width: 14px; height: 14px; transition: transform .2s ease; }
+.active-filters.panel-open .af-label svg { transform: rotate(180deg); }
+/* 調整條件面板 */
+.af-panel { border-top: 1px solid var(--line); background: #fff; max-height: 70vh; overflow-y: auto; }
+.af-panel .container { padding-top: 14px; padding-bottom: 14px; }
+.af-group { display: flex; align-items: center; gap: 16px; margin-bottom: 10px; }
+.af-panel-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
+.af-panel-foot .btn { padding: 9px 22px; }
+@media (max-width: 640px) {
+  .af-group { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .af-panel .chips { flex-wrap: wrap; width: auto; margin: 0; padding: 0; overflow: visible; }
 }

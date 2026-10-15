@@ -171,6 +171,8 @@
   /* ---------- 固定在上方的「目前篩選條件」列 ---------- */
   const afBar = document.getElementById('activeFilters');
   const afChips = document.getElementById('afChips');
+  const afPanel = document.getElementById('afPanel');
+  const X_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>';
   function renderActiveFilters(hasFilter) {
     afBar.classList.toggle('has-filter', !!hasFilter);
     const items = [];
@@ -179,30 +181,88 @@
     });
     if (state.favOnly) items.push({ group: 'fav', label: '♥ ' + t('myFavs') });
     if (state.query) items.push({ group: 'query', label: `“${document.getElementById('search').value.trim()}”` });
+    // 每個條件分成兩半：點文字＝打開調整面板，點 ×＝取消這個條件
     afChips.innerHTML = items.map((it) => `
-      <button type="button" class="af-chip" data-group="${it.group}" data-id="${escapeHtml(it.id || '')}">
-        <span>${escapeHtml(it.label)}</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>`).join('');
+      <span class="af-chip">
+        <button type="button" class="af-chip-label" data-open-panel>${escapeHtml(it.label)}</button>
+        <button type="button" class="af-chip-x" data-group="${it.group}" data-id="${escapeHtml(it.id || '')}" aria-label="remove">${X_ICON}</button>
+      </span>`).join('');
+    if (!afPanel.hidden) renderAfPanel();
     updateActiveBar();
   }
-  // 點某個條件旁的 ×：只拿掉那一個條件
-  afChips.addEventListener('click', (e) => {
-    const chip = e.target.closest('.af-chip');
-    if (!chip) return;
-    const group = chip.dataset.group;
-    if (group === 'fav') state.favOnly = false;
-    else if (group === 'query') {
-      state.query = '';
-      document.getElementById('search').value = '';
-      const mini = document.querySelector('.mini-search-input');
-      if (mini) mini.value = '';
-    } else state.filters[group].delete(chip.dataset.id);
-    renderChips();
-    renderGrid();
+
+  // 調整面板：和上方篩選區一樣的按鈕，可以直接在這裡加減條件
+  function renderAfPanel() {
+    const groups = [['region', 'fRegion'], ['brand', 'fBrand'], ['flavor', 'fFlavor']].map(([group, label]) => `
+      <div class="af-group">
+        <span class="filter-label">${t(label)}</span>
+        <div class="chips">${OPTIONS[group].map((o) => `
+          <button type="button" class="chip" data-group="${group}" data-id="${o.id}" aria-pressed="${state.filters[group].has(o.id)}">${escapeHtml(o[window.LANG])}</button>`).join('')}
+        </div>
+      </div>`).join('');
+    afPanel.querySelector('.af-panel-groups').innerHTML = groups + `
+      <div class="af-group">
+        <span class="filter-label"></span>
+        <div class="chips"><button type="button" class="chip chip-fav" data-fav-toggle aria-pressed="${state.favOnly}">♥ ${escapeHtml(t('myFavs'))}</button></div>
+      </div>`;
+    afPanel.querySelector('.af-count').textContent = document.getElementById('resultCount').textContent;
+  }
+  function openAfPanel() {
+    renderAfPanel();
+    afPanel.hidden = false;
+    afBar.classList.add('panel-open');
+    updateActiveBar();
+  }
+  function closeAfPanel() {
+    if (afPanel.hidden) return;
+    afPanel.hidden = true;
+    afBar.classList.remove('panel-open');
+    // 關掉後把畫面帶到結果的最上面
+    const gridTop = document.getElementById('grid').getBoundingClientRect().top;
+    const barBottom = afBar.getBoundingClientRect().bottom;
+    if (gridTop < barBottom || gridTop > window.innerHeight * 0.6) {
+      window.scrollTo({ top: gridTop + window.scrollY - barBottom - 12, behavior: 'smooth' });
+    }
+    updateActiveBar();
+  }
+  afBar.addEventListener('click', (e) => {
+    const x = e.target.closest('.af-chip-x');
+    if (x) {
+      const group = x.dataset.group;
+      if (group === 'fav') state.favOnly = false;
+      else if (group === 'query') {
+        state.query = '';
+        document.getElementById('search').value = '';
+        const mini = document.querySelector('.mini-search-input');
+        if (mini) mini.value = '';
+      } else state.filters[group].delete(x.dataset.id);
+      renderChips();
+      renderGrid();
+      return;
+    }
+    if (e.target.closest('[data-open-panel], .af-label')) {
+      afPanel.hidden ? openAfPanel() : closeAfPanel();
+      return;
+    }
+    const chip = e.target.closest('.af-panel .chip');
+    if (chip) {
+      if (chip.hasAttribute('data-fav-toggle')) state.favOnly = !state.favOnly;
+      else {
+        const set = state.filters[chip.dataset.group];
+        set.has(chip.dataset.id) ? set.delete(chip.dataset.id) : set.add(chip.dataset.id);
+      }
+      renderChips();
+      renderGrid();
+    }
   });
+  document.getElementById('afDone').addEventListener('click', closeAfPanel);
+  document.addEventListener('click', (e) => {
+    // 用 composedPath 判斷：面板按鈕按下後會重畫，原本的按鈕已不在畫面上
+    if (!afPanel.hidden && !e.composedPath().includes(afBar)) closeAfPanel();
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAfPanel(); });
   // 右邊的大 ×：全部取消
-  document.getElementById('afClear').addEventListener('click', clearFilters);
+  document.getElementById('afClear').addEventListener('click', () => { clearFilters(); closeAfPanel(); });
 
   // 篩選按鈕捲出畫面後才顯示，並緊貼在黏住的導覽列下方
   const filtersBox = document.querySelector('.filters');
@@ -215,7 +275,8 @@
     const groups = filtersBox.querySelectorAll('.filter-group');
     const passed = groups[groups.length - 1].getBoundingClientRect().bottom < headerBottom;
     afBar.style.top = headerBottom + 'px';
-    afBar.classList.toggle('show', afBar.classList.contains('has-filter') && passed);
+    // 正在調整條件時一律保持顯示
+    afBar.classList.toggle('show', !afPanel.hidden || (afBar.classList.contains('has-filter') && passed));
   }
   window.addEventListener('scroll', () => {
     if (!afTicking) { afTicking = true; requestAnimationFrame(updateActiveBar); }
