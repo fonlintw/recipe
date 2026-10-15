@@ -618,3 +618,7 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
 
 /* By／From 一般粗細，調酒師與店家名稱粗體 */
 .card-meta strong, .by strong, .recipe-by strong { font-weight: 700; }
+
+/* 酒譜視窗裡的調酒師、店家名稱：柔和一點（中等粗細、深灰色） */
+.recipe-by { font-size: 16px; }
+.recipe-by strong { font-weight: 500; color: var(--text-2); }
