@@ -92,6 +92,8 @@
     state.favOnly = false;
     state.query = '';
     document.getElementById('search').value = '';
+    const mini = document.querySelector('.mini-search-input');
+    if (mini) mini.value = '';
     renderChips();
     renderGrid();
   }
@@ -163,7 +165,62 @@
     const empty = document.getElementById('empty');
     empty.hidden = list.length > 0;
     empty.querySelector('p').textContent = state.favOnly && favs.size === 0 ? t('emptyFav') : t('emptyTitle');
+    renderActiveFilters(hasFilter);
   }
+
+  /* ---------- 固定在上方的「目前篩選條件」列 ---------- */
+  const afBar = document.getElementById('activeFilters');
+  const afChips = document.getElementById('afChips');
+  function renderActiveFilters(hasFilter) {
+    afBar.classList.toggle('has-filter', !!hasFilter);
+    const items = [];
+    ['region', 'brand', 'flavor'].forEach((group) => {
+      state.filters[group].forEach((id) => items.push({ group, id, label: optLabel(group, id) }));
+    });
+    if (state.favOnly) items.push({ group: 'fav', label: '♥ ' + t('myFavs') });
+    if (state.query) items.push({ group: 'query', label: `“${document.getElementById('search').value.trim()}”` });
+    afChips.innerHTML = items.map((it) => `
+      <button type="button" class="af-chip" data-group="${it.group}" data-id="${escapeHtml(it.id || '')}">
+        <span>${escapeHtml(it.label)}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>`).join('');
+    updateActiveBar();
+  }
+  // 點某個條件旁的 ×：只拿掉那一個條件
+  afChips.addEventListener('click', (e) => {
+    const chip = e.target.closest('.af-chip');
+    if (!chip) return;
+    const group = chip.dataset.group;
+    if (group === 'fav') state.favOnly = false;
+    else if (group === 'query') {
+      state.query = '';
+      document.getElementById('search').value = '';
+      const mini = document.querySelector('.mini-search-input');
+      if (mini) mini.value = '';
+    } else state.filters[group].delete(chip.dataset.id);
+    renderChips();
+    renderGrid();
+  });
+  // 右邊的大 ×：全部取消
+  document.getElementById('afClear').addEventListener('click', clearFilters);
+
+  // 篩選按鈕捲出畫面後才顯示，並緊貼在黏住的導覽列下方
+  const filtersBox = document.querySelector('.filters');
+  const headerEl = document.querySelector('.site-header');
+  let afTicking = false;
+  function updateActiveBar() {
+    afTicking = false;
+    const headerBottom = Math.max(0, headerEl.getBoundingClientRect().bottom);
+    // 篩選按鈕（最後一排「風味」）被捲到導覽列後面看不到時，就顯示條件列
+    const groups = filtersBox.querySelectorAll('.filter-group');
+    const passed = groups[groups.length - 1].getBoundingClientRect().bottom < headerBottom;
+    afBar.style.top = headerBottom + 'px';
+    afBar.classList.toggle('show', afBar.classList.contains('has-filter') && passed);
+  }
+  window.addEventListener('scroll', () => {
+    if (!afTicking) { afTicking = true; requestAnimationFrame(updateActiveBar); }
+  }, { passive: true });
+  window.addEventListener('resize', updateActiveBar);
 
   function cardHtml(r, i) {
     const fav = favs.has(r.id);

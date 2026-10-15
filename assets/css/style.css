@@ -622,3 +622,41 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
 /* 酒譜視窗裡的調酒師、店家名稱：柔和一點（中等粗細、深灰色） */
 .recipe-by { font-size: 16px; }
 .recipe-by strong { font-weight: 500; color: var(--text-2); }
+
+/* =========================================================
+   目前篩選條件列：往下捲時固定在導覽列下方
+   ========================================================= */
+.active-filters {
+  position: fixed; left: 0; right: 0; top: 0; z-index: 58;
+  background: rgba(255, 255, 255, .97); border-bottom: 1px solid var(--line);
+  box-shadow: 0 8px 18px -14px rgba(0, 0, 0, .35);
+  transform: translateY(-8px); opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .2s ease, transform .2s ease, visibility .2s;
+}
+.active-filters.show { transform: none; opacity: 1; visibility: visible; pointer-events: auto; }
+.af-inner { display: flex; align-items: center; gap: 12px; padding-top: 8px; padding-bottom: 8px; }
+.af-label {
+  flex-shrink: 0; font-family: var(--font-caps); font-size: 12px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--accent);
+}
+.af-chips { flex: 1; min-width: 0; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+.af-chips::-webkit-scrollbar { display: none; }
+.af-chip {
+  flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; padding: 5px 10px 5px 13px;
+  background: var(--navy); color: #fff; font-size: 13px; white-space: nowrap;
+}
+.af-chip svg { width: 13px; height: 13px; opacity: .8; }
+.af-chip:hover svg { opacity: 1; }
+.af-clear {
+  flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--line-strong); background: #fff; color: var(--text);
+  display: grid; place-items: center;
+}
+.af-clear:hover { border-color: var(--accent); color: var(--accent); }
+.af-clear svg { width: 16px; height: 16px; }
+@media (max-width: 640px) {
+  .af-inner { gap: 8px; }
+  .af-label { font-size: 11px; letter-spacing: .04em; }
+  .af-chip { font-size: 12px; padding: 4px 9px 4px 11px; }
+}
