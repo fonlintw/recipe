@@ -615,3 +615,6 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
 /* 調酒師「By 名字」：用小標的字體，一般粗細，顏色維持原本 */
 .by-name { font-family: var(--font-caps); font-weight: 400; letter-spacing: .04em; }
 .recipe-by .by-name { color: var(--text-2); }
+
+/* By／From 一般粗細，調酒師與店家名稱粗體 */
+.card-meta strong, .by strong, .recipe-by strong { font-weight: 700; }

@@ -176,7 +176,7 @@
         <div class="card-body">
           <p class="kicker">${escapeHtml(optLabel('region', r.region))} · ${escapeHtml(brandName(r))}</p>
           <h3>${escapeHtml(r.name)}</h3>
-          <p class="card-meta">${t('byShort', escapeHtml(r.bartender))} · From ${escapeHtml(r.bar)}</p>
+          <p class="card-meta">${t('byShort', escapeHtml(r.bartender))} · From <strong>${escapeHtml(r.bar)}</strong></p>
           <p class="card-flavors">${(r.flavors || []).map((f) => escapeHtml(optLabel('flavor', f))).join(' / ')}</p>
           <div class="card-foot">
             <span>${ICONS.calendar}${fmtDate(r.date)}</span>
@@ -230,7 +230,7 @@
     recipeModal.querySelector('.recipe-content').innerHTML = `
       <div class="card-tags">${(r.flavors || []).map((f) => `<span class="tag">${escapeHtml(optLabel('flavor', f))}</span>`).join('')}</div>
       <h2 id="recipeTitle">${escapeHtml(r.name)}</h2>
-      <p class="recipe-by">${t('by', escapeHtml(r.bartender), 'From ' + escapeHtml(r.bar))}</p>
+      <p class="recipe-by">${t('by', escapeHtml(r.bartender), 'From <strong>' + escapeHtml(r.bar) + '</strong>')}</p>
       <div class="recipe-stats">
         <span>${ICONS.pin}${escapeHtml(countyLabel(r.county))} · ${escapeHtml(optLabel('region', r.region))}</span>
         <span>${ICONS.calendar}${t('uploaded')} ${fmtDate(r.date)}</span>
