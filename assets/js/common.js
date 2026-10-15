@@ -403,3 +403,6 @@ const ICONS = {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup);
   else setup();
 })();
+
+// 頁尾年份自動更新
+document.querySelectorAll('.footer-year').forEach((el) => { el.textContent = new Date().getFullYear(); });

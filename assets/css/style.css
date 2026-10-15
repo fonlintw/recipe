@@ -381,8 +381,19 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
 
 /* ---------- 頁尾（深藍） ---------- */
 .site-footer { background: var(--bg-2); color: var(--text-3); border-top: 1px solid var(--line); padding: 40px 0 48px; font-size: 13px; }
-.site-footer .container { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; justify-content: space-between; }
-.site-footer .logo { height: 44px; opacity: .85; }
+.footer-inner { display: flex; align-items: center; gap: 28px; }
+.footer-logo { height: 92px; width: auto; mix-blend-mode: multiply; flex-shrink: 0; }
+.footer-info { flex: 1; min-width: 0; }
+.footer-info p { margin: 0; }
+.footer-company { font-size: 16px; font-weight: 600; color: var(--text); letter-spacing: .06em; margin-bottom: 4px !important; }
+.footer-note, .footer-copy { font-size: 13px; color: var(--text-3); }
+.footer-line { flex-shrink: 0; display: inline-block; line-height: 0; transition: opacity .15s ease; }
+.footer-line:hover { opacity: .85; }
+.footer-line img { height: 36px; width: auto; }
+@media (max-width: 640px) {
+  .footer-inner { flex-direction: column; text-align: center; gap: 16px; }
+  .footer-logo { height: 80px; }
+}
 
 /* =========================================================
    Pisco 學堂頁
