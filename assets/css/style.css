@@ -770,8 +770,9 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
 
 /* 學堂頁：前往品牌頁的連結區塊 */
 .brand-cta {
-  display: grid; grid-template-columns: 220px 1fr; align-items: center; gap: 22px;
+  display: grid; grid-template-columns: 220px 1fr; align-items: center; gap: 22px; width: 100%;
   background: var(--bg-2); text-decoration: none; color: var(--text); overflow: hidden;
+  border: 0; padding: 0; text-align: left; cursor: pointer;
 }
 .brand-cta img { width: 100%; height: 100%; min-height: 150px; object-fit: cover; }
 .brand-cta-text { display: flex; flex-direction: column; gap: 6px; padding: 18px 20px 18px 0; color: var(--text-2); font-size: 15px; }
@@ -781,4 +782,22 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
   .brand-cta { grid-template-columns: 1fr; gap: 0; }
   .brand-cta img { aspect-ratio: 16 / 9; min-height: 0; }
   .brand-cta-text { padding: 16px 18px; }
+}
+
+/* Our Brands 跳出視窗 */
+.brand-panel { flex-direction: column; width: min(900px, calc(100vw - 48px)); overflow-y: auto; }
+.brand-panel-body { padding: 40px 48px 48px; }
+.brand-panel-title { font-family: var(--font-serif); font-size: clamp(26px, 3.4vw, 36px); line-height: 1.25; margin: 8px 48px 24px 0; }
+.brand-article { max-width: none; }
+.brand-article section { scroll-margin-top: 20px; }
+@media (max-width: 760px) {
+  .brand-panel { width: 100%; }
+  .brand-panel-body { padding: 26px 18px 48px; }
+  .brand-panel-title { margin-right: 52px; }
+}
+.brand-panel > .modal-warning { margin: 0 !important; flex-shrink: 0; }
+/* 長內容視窗：右上角的 × 捲動時固定在上方 */
+.brand-panel > .modal-close { position: sticky; top: 14px; align-self: flex-end; margin: 14px 14px -54px 0; flex-shrink: 0; }
+@media (max-width: 760px) {
+  .recipe-panel > .modal-close { position: sticky; top: 12px; align-self: flex-end; margin: 12px 12px -52px 0; flex-shrink: 0; }
 }
