@@ -557,3 +557,27 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
   .block-navy::before { transform: none !important; }
   html { scroll-behavior: auto; }
 }
+
+/* =========================================================
+   酒類警語：固定在畫面最下方（依菸酒管理法規定標示）
+   ========================================================= */
+:root { --warn-h: 38px; }
+.alcohol-warning {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 65;
+  min-height: var(--warn-h); padding: 9px 16px calc(9px + env(safe-area-inset-bottom));
+  background: var(--navy); color: #fff; text-align: center;
+  font-size: 14px; font-weight: 700; letter-spacing: .08em; line-height: 1.4;
+}
+body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
+.to-top { bottom: calc(var(--warn-h) + 20px + env(safe-area-inset-bottom)); }
+.toast { bottom: calc(var(--warn-h) + 24px + env(safe-area-inset-bottom)); }
+/* 每一句警語保持在同一行，不從中間斷開 */
+.modal-warning span { display: inline-block; margin: 0 .5em; }
+.modal-warning {
+  margin: 28px 0 0; padding: 12px 14px; background: var(--navy); color: #fff;
+  font-size: 13px; font-weight: 700; letter-spacing: .06em; text-align: center; border-radius: var(--radius-sm);
+}
+@media (max-width: 640px) {
+  :root { --warn-h: 34px; }
+  .alcohol-warning { font-size: 12px; letter-spacing: .02em; padding-top: 8px; padding-bottom: calc(8px + env(safe-area-inset-bottom)); }
+}

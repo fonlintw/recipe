@@ -249,7 +249,8 @@
       <div class="recipe-section">
         <h4>${t('method').toUpperCase()}</h4>
         <ol class="method">${steps.map((s) => `<li>${escapeHtml(s)}</li>`).join('')}</ol>
-      </div>`;
+      </div>
+      <p class="modal-warning">${t('warning').split(/　| · /).map((x) => `<span>${escapeHtml(x)}</span>`).join('')}</p>`;
     recipeModal.querySelector('.fav-inline').addEventListener('click', (e) => {
       const on = toggleFav(r.id);
       const btn = e.currentTarget;

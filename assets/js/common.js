@@ -102,6 +102,7 @@ const I18N = {
     method: '製作方式',
     by: (bartender, bar) => `調酒師 <strong>${bartender}</strong> · ${bar}`,
     footer: '酒譜由各調酒師投稿分享。請理性飲酒，未成年請勿飲酒。',
+    warning: '禁止酒駕　未滿十八歲禁止飲酒　飲酒過量，有害健康',
     // 投稿表單
     sTitle: '投稿你的 Pisco 酒譜',
     sSub: '送出後會先由我們審核，通過後就會刊登在網站上。',
@@ -181,6 +182,7 @@ const I18N = {
     method: 'Method',
     by: (bartender, bar) => `By <strong>${bartender}</strong> · ${bar}`,
     footer: 'Recipes are shared by bartenders. Please drink responsibly. Must be of legal drinking age.',
+    warning: 'Don’t drink and drive · No drinking under 18 · Excessive drinking is harmful to your health',
     sTitle: 'Submit your Pisco recipe',
     sSub: 'Submissions are reviewed before being published on the site.',
     secPhoto: 'Photo',
