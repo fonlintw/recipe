@@ -42,7 +42,7 @@ button { cursor: pointer; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 [hidden] { display: none !important; }
 
-.container { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+.container { width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 32px; }
 @media (max-width: 640px) { .container { padding: 0 16px; } }
 
 /* ---------- 語言切換（靜態文字） ---------- */
@@ -206,10 +206,12 @@ html:not([lang="en"]) .lang-en { display: none !important; }
 }
 
 /* ---------- 酒譜卡片（雜誌風：沒有外框） ---------- */
-.grid { display: grid; gap: 40px 28px; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); padding: 32px 0 80px; }
-@media (max-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 28px 14px; padding-top: 20px; } }
+/* 一排三張；平板兩張；手機兩張 */
+.grid { display: grid; gap: 44px 36px; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 32px 0 80px; }
+@media (max-width: 900px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 24px; } }
+@media (max-width: 640px) { .grid { gap: 28px 14px; padding-top: 20px; } }
 .card { position: relative; cursor: pointer; display: flex; flex-direction: column; }
-.card-media { position: relative; aspect-ratio: 4 / 5; background: var(--bg-3); overflow: hidden; }
+.card-media { position: relative; aspect-ratio: 4 / 3; background: var(--bg-3); overflow: hidden; }
 .card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
 .card:hover .card-media img { transform: scale(1.04); }
 .fav-btn {
@@ -232,6 +234,7 @@ html:not([lang="en"]) .lang-en { display: none !important; }
 .card-foot span { display: inline-flex; align-items: center; gap: 4px; }
 .card-foot svg { width: 14px; height: 14px; }
 @media (max-width: 640px) {
+  .card-media { aspect-ratio: 1 / 1; }
   .card .kicker { font-size: 10px; letter-spacing: .1em; }
   .card h3 { font-size: 17px; }
   .card-meta { font-size: 13px; }
