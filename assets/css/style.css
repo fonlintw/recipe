@@ -844,3 +844,5 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
 /* 經典調酒：深色背景的酒款照片，固定正方形放在卡片上方 */
 .spec-dark { object-fit: cover; background: #0b0b0b; height: auto !important; min-height: 0 !important; aspect-ratio: 1 / 1; align-self: start; }
 @media (max-width: 640px) { .spec-dark { aspect-ratio: 1 / 1 !important; } }
+/* 經典調酒：同系列的淺色背景酒款照，固定正方形 */
+.spec-square { object-fit: cover; background: #e9e4dc; height: auto !important; min-height: 0 !important; aspect-ratio: 1 / 1 !important; align-self: start; }
