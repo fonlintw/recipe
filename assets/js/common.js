@@ -101,7 +101,6 @@ const I18N = {
     ingredients: '材料',
     method: '製作方式',
     by: (bartender, bar) => `<span class="by-name">By ${bartender}</span> · ${bar}`,
-    barPrefix: '店家',
     footer: '酒譜由各調酒師投稿分享。請理性飲酒，未成年請勿飲酒。',
     warning: '未滿十八歲禁止飲酒',
     // 投稿表單
@@ -182,7 +181,6 @@ const I18N = {
     ingredients: 'Ingredients',
     method: 'Method',
     by: (bartender, bar) => `<span class="by-name">By ${bartender}</span> · ${bar}`,
-    barPrefix: 'Bar',
     footer: 'Recipes are shared by bartenders. Please drink responsibly. Must be of legal drinking age.',
     warning: 'No drinking under 18',
     sTitle: 'Submit your Pisco recipe',
@@ -284,10 +282,6 @@ function fmtDate(iso) {
     return `${mon} ${d}, ${y}`;
   }
   return `${y}/${String(m).padStart(2, '0')}/${String(d).padStart(2, '0')}`;
-}
-
-function barLabel(name) {
-  return `<span class="by-name">${t('barPrefix')} ${escapeHtml(name)}</span>`;
 }
 
 function escapeHtml(s) {
