@@ -822,3 +822,6 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
 .article .figure-wide { margin: 4px 0 22px; }
 .pair-caption { margin: -8px 0 20px !important; font-size: 13px !important; color: var(--text-3) !important; }
 .brand-cta-wrap { margin-top: 18px; }
+.figure-portrait { max-width: 480px; }
+.figure-portrait img { aspect-ratio: 4 / 5; object-fit: cover; }
+#brands .brand-cta-wrap { margin-top: 4px; }
