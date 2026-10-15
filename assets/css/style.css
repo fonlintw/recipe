@@ -685,3 +685,17 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
   border-radius: 999px; padding: 5px 14px; font-size: 13px; white-space: nowrap;
 }
 .af-empty:hover { border-color: var(--accent); color: var(--accent); }
+
+/* 酒譜視窗裡的警語：黏在視窗最下方，捲動時一直看得到（手機全螢幕時也一樣） */
+.modal-warning {
+  position: sticky; bottom: 0; z-index: 3;
+  margin: 28px -40px -40px; border-radius: 0; padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+}
+@media (max-width: 760px) {
+  .modal-warning { margin: 28px -18px -40px; font-size: 12px; }
+}
+@media (min-width: 761px) {
+  /* 電腦版：內容區本身會捲動，拿掉底部留白讓警語貼齊視窗底邊 */
+  .recipe-content { padding-bottom: 0; }
+  .modal-warning { margin-bottom: 0; }
+}
