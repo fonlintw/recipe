@@ -736,3 +736,20 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
   .share-grid { gap: 14px 4px; }
   .share-icon { width: 48px; height: 48px; }
 }
+
+/* 手機版表格：每一列變成一張小卡片，欄位名稱放在內容上方，不會擠成直排 */
+@media (max-width: 640px) {
+  .table-wrap { overflow: visible; border: 0; }
+  .table-stack { min-width: 0; }
+  .table-stack thead { display: none; }
+  .table-stack, .table-stack tbody, .table-stack tr, .table-stack td { display: block; width: 100%; }
+  .table-stack tr { border: 1px solid var(--line); border-left: 3px solid var(--accent); margin-bottom: 10px; padding: 12px 14px; background: #fff; }
+  .table-stack tr:nth-child(even) td { background: none; }
+  .table-stack td { border: 0; padding: 4px 0; font-size: 15px; }
+  .table-stack td.cell-head { font-size: 17px; font-weight: 700; color: var(--text); padding-top: 0; padding-bottom: 6px; }
+  .table-stack td[data-zh]::before {
+    content: attr(data-zh); display: block; font-family: var(--font-caps); font-size: 11px; font-weight: 700;
+    letter-spacing: .1em; color: var(--text-3); margin-bottom: 1px;
+  }
+  html[lang="en"] .table-stack td[data-en]::before { content: attr(data-en); text-transform: uppercase; }
+}
