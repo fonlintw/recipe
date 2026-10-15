@@ -825,3 +825,19 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
 .figure-portrait { max-width: 480px; }
 .figure-portrait img { aspect-ratio: 4 / 5; object-fit: cover; }
 #brands .brand-cta-wrap { margin-top: 4px; }
+
+/* 經典調酒：插圖與結構化酒譜 */
+.spec-illus { object-fit: cover; background: #ecebe7; height: auto !important; min-height: 0 !important; aspect-ratio: 1 / 1; align-self: start; }
+.spec-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 14px 0 6px; }
+.spec-meta div { background: #fff; padding: 8px 12px; }
+.spec-meta dt { font-family: var(--font-caps); font-size: 11px; font-weight: 700; letter-spacing: .1em; color: var(--text-3); text-transform: uppercase; }
+.spec-meta dd { margin: 2px 0 0; font-size: 15px; color: var(--text); }
+.spec-label { font-family: var(--font-caps); font-size: 12px !important; font-weight: 700; letter-spacing: .12em; color: var(--accent) !important; margin: 16px 0 4px !important; text-transform: uppercase; }
+.spec-ings { list-style: none; padding: 0 !important; margin: 0; }
+.spec-ings li { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--line); }
+.spec-ings li span:last-child { font-weight: 600; color: var(--accent-strong); white-space: nowrap; }
+.spec-steps { margin: 0; padding-left: 20px; }
+.spec-steps li { padding: 3px 0; }
+@media (max-width: 640px) {
+  .spec-illus { aspect-ratio: 1 / 1 !important; }
+}
