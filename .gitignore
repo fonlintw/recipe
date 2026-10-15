@@ -1,0 +1,4 @@
+# macOS 系統檔
+.DS_Store
+# Claude 本機設定（每台電腦不同）
+.claude/settings.local.json

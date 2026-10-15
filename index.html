@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Pisco 酒譜 | Pisco Cocktail Recipes Taiwan</title>
+  <meta name="description" content="收集全台灣調酒師的 Pisco 調酒酒譜，依地區、Pisco 種類、風味分類，並提供 Pisco 知識。">
+  <meta name="theme-color" content="#0a1219">
+  <meta property="og:title" content="Pisco 酒譜 | Pisco Cocktail Recipes Taiwan">
+  <meta property="og:description" content="全台灣調酒師的 Pisco 調酒酒譜分享平台">
+  <link rel="icon" type="image/png" href="assets/img/porton-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Montserrat:wght@600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css?v=5">
+</head>
+<body>
+  <div class="demo-bar" id="demoBar" hidden data-i18n="demoBar"></div>
+
+  <header class="site-header">
+    <div class="container header-top">
+      <a class="brand" href="index.html">
+        <img class="logo" src="assets/img/porton-logo.png" alt="Pisco Portón">
+        <span class="brand-text">Pisco<br>Recipes</span>
+      </a>
+      <div class="header-actions">
+        <button type="button" class="lang-toggle" id="langToggle">EN</button>
+        <span class="header-sep"></span>
+        <button type="button" class="btn btn-primary" id="openSubmit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          <span data-i18n="submit">投稿酒譜</span>
+        </button>
+      </div>
+    </div>
+    <nav class="container main-nav">
+      <a href="index.html" class="active" data-i18n="navRecipes">酒譜</a>
+      <a href="learn.html" data-i18n="navLearn">Pisco 學堂</a>
+    </nav>
+  </header>
+
+  <section class="intro block-navy">
+    <div class="container">
+    <p class="eyebrow">Pisco Cocktail Recipes · Taiwan</p>
+    <h1 data-i18n="heroTitle">台灣調酒師的 Pisco 酒譜</h1>
+    <p class="sub" data-i18n="heroSub"></p>
+    <label class="search search-top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="search" type="search" enterkeyhint="search" data-i18n-ph="searchPh" autocomplete="off">
+    </label>
+    </div>
+  </section>
+
+  <section class="featured block-ice" id="featured" hidden>
+    <div class="container">
+      <p class="kicker list-head" data-i18n="featuredLatest">最新酒譜</p>
+      <div class="featured-list" id="featuredList"></div>
+    </div>
+  </section>
+
+  <main class="recipes container" id="allRecipes">
+    <div class="section-head">
+      <div>
+        <p class="kicker">All Recipes</p>
+        <h2 data-i18n="allRecipes">所有酒譜</h2>
+      </div>
+    </div>
+
+    <section class="filters" aria-label="filters">
+      <div class="filter-group">
+        <span class="filter-label" data-i18n="fRegion">地區</span>
+        <div class="chips" id="chips-region"></div>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label" data-i18n="fBrand">Pisco 品牌</span>
+        <div class="chips" id="chips-brand"></div>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label" data-i18n="fFlavor">風味</span>
+        <div class="chips" id="chips-flavor"></div>
+      </div>
+      <div class="filter-meta">
+        <button type="button" class="chip chip-fav" id="favToggle" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+          <span data-i18n="myFavs">我的收藏</span> <span class="fav-count"></span>
+        </button>
+        <span class="result-count" id="resultCount"></span>
+        <button type="button" class="link-btn" id="clearFilters" data-i18n="clear" hidden>清除篩選</button>
+      </div>
+    </section>
+
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden><p></p></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <img class="logo" src="assets/img/porton-logo.png" alt="Pisco Portón">
+      <span data-i18n="footer"></span>
+    </div>
+  </footer>
+
+  <!-- 酒譜跳出視窗 -->
+  <dialog id="recipeModal" aria-labelledby="recipeTitle">
+    <div class="modal-panel recipe-panel">
+      <button type="button" class="modal-close" data-close aria-label="close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="recipe-media"></div>
+      <div class="recipe-content"></div>
+    </div>
+  </dialog>
+
+  <!-- 投稿表單 -->
+  <dialog id="submitModal" aria-labelledby="submitTitle">
+    <div class="modal-panel submit-panel">
+      <button type="button" class="modal-close" data-close aria-label="close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="submit-head">
+        <h2 id="submitTitle" data-i18n="sTitle">投稿你的 Pisco 酒譜</h2>
+        <p data-i18n="sSub"></p>
+      </div>
+
+      <div class="submit-body">
+        <form id="submitForm" novalidate>
+          <div class="form-section-title" data-i18n="secPhoto">調酒照片</div>
+          <div class="field full">
+            <div class="photo-drop" id="photoDrop">
+              <input type="file" id="photoInput" accept="image/*" aria-label="photo">
+              <div class="photo-empty">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                <div data-i18n="photoHint">點這裡選擇照片</div>
+                <div class="hint" data-i18n="photoNote"></div>
+              </div>
+              <div class="photo-preview"></div>
+            </div>
+            <span class="err" data-i18n="errPhoto"></span>
+          </div>
+
+          <div class="form-section-title" data-i18n="secBasic">調酒資訊</div>
+          <div class="form-grid">
+            <div class="field full">
+              <label for="f-name"><span data-i18n="cocktailName">調酒名稱</span><span class="req">*</span></label>
+              <input class="input" id="f-name" name="name" maxlength="60" data-i18n-ph="cocktailNamePh">
+              <span class="err" data-i18n="errRequired"></span>
+            </div>
+            <div class="field">
+              <label for="f-brand"><span data-i18n="brandLabel">Pisco 品牌</span><span class="req">*</span></label>
+              <select class="select" id="f-brand" name="brand"></select>
+              <span class="err" data-i18n="errRequired"></span>
+            </div>
+            <div class="field">
+              <label for="f-type"><span data-i18n="typeLabel">Pisco 種類</span><span class="req">*</span></label>
+              <select class="select" id="f-type" name="piscoType"></select>
+              <span class="type-lock" id="typeLockHint" hidden></span>
+              <span class="err" data-i18n="errRequired"></span>
+            </div>
+            <div class="field full" id="brandOtherField" hidden>
+              <input class="input" name="brandOther" maxlength="60" data-i18n-ph="brandOtherPh" aria-label="brand">
+              <span class="err" data-i18n="errRequired"></span>
+            </div>
+            <div class="field full">
+              <span class="label"><span data-i18n="grapeLabel">葡萄品種</span><span class="req">*</span></span>
+              <div class="check-group" id="checks-grape"></div>
+              <span class="err" data-i18n="errPick"></span>
+            </div>
+            <div class="field full">
+              <span class="label"><span data-i18n="flavorLabel">風味</span><span class="req">*</span></span>
+              <div class="check-group" id="checks-flavor"></div>
+              <span class="err" data-i18n="errPick"></span>
+            </div>
+          </div>
+
+          <div class="form-section-title" data-i18n="secRecipe">酒譜</div>
+          <div class="form-grid">
+            <div class="field full">
+              <span class="label"><span data-i18n="ingLabel">材料與份量</span><span class="req">*</span></span>
+              <div class="ing-rows" id="ingRows"></div>
+              <button type="button" class="btn btn-ghost add-row" id="addIng" data-i18n="addIng">＋ 新增一項材料</button>
+              <span class="err" data-i18n="errIng"></span>
+            </div>
+            <div class="field full">
+              <label for="f-method"><span data-i18n="methodLabel">製作方式</span><span class="req">*</span></label>
+              <textarea class="textarea" id="f-method" name="method" maxlength="1500" data-i18n-ph="methodPh"></textarea>
+              <span class="err" data-i18n="errRequired"></span>
+            </div>
+          </div>
+
+          <div class="form-section-title" data-i18n="secBar">店家與調酒師</div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="f-county"><span data-i18n="countyLabel">店家縣市</span><span class="req">*</span></label>
+              <select class="select" id="f-county" name="county"></select>
+              <span class="err" data-i18n="errRequired"></span>
+            </div>
+            <div class="field">
+              <label for="f-bar"><span data-i18n="barLabel">店家名稱</span><span class="req">*</span></label>
+              <input class="input" id="f-bar" name="bar" maxlength="60">
+              <span class="err" data-i18n="errRequired"></span>
+            </div>
+            <div class="field full">
+              <label for="f-bartender"><span data-i18n="bartenderLabel">調酒師名稱</span><span class="req">*</span></label>
+              <input class="input" id="f-bartender" name="bartender" maxlength="40">
+              <span class="err" data-i18n="errRequired"></span>
+            </div>
+            <div class="field full">
+              <label class="consent">
+                <input type="checkbox" name="consent">
+                <span data-i18n="consent"></span>
+              </label>
+              <span class="err" data-i18n="errConsent"></span>
+            </div>
+          </div>
+          <!-- 防機器人：真人看不到這一欄 -->
+          <div class="hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off"></div>
+        </form>
+
+        <div class="submit-done" id="submitDone" hidden>
+          <div class="done-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <h3 data-i18n="doneTitle"></h3>
+          <p><span data-i18n="doneText"></span><br><span id="doneDemo" data-i18n="doneDemo"></span></p>
+          <button type="button" class="btn btn-primary" data-close data-i18n="doneBtn"></button>
+        </div>
+      </div>
+
+      <div class="submit-foot">
+        <button type="button" class="btn btn-ghost" data-close data-i18n="cancel">取消</button>
+        <button type="submit" form="submitForm" class="btn btn-primary" id="sendBtn"><span data-i18n="send">送出審核</span></button>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/js/common.js?v=5"></script>
+  <script src="assets/js/sample-data.js?v=5"></script>
+  <script src="assets/js/app.js?v=5"></script>
+</body>
+</html>
