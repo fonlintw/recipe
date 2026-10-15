@@ -5,24 +5,9 @@
   const state = {
     recipes: [],
     filters: { region: new Set(), brand: new Set(), flavor: new Set() },
-    favOnly: false,
     query: '',
   };
   const isDemo = !window.API_URL;
-
-  /* ---------- 收藏（只存在這台裝置） ---------- */
-  const FAV_KEY = 'pisco_favs';
-  let favs = new Set();
-  try { favs = new Set(JSON.parse(localStorage.getItem(FAV_KEY) || '[]')); } catch (e) {}
-  function saveFavs() {
-    try { localStorage.setItem(FAV_KEY, JSON.stringify([...favs])); } catch (e) {}
-  }
-  function toggleFav(id) {
-    if (favs.has(id)) favs.delete(id); else favs.add(id);
-    saveFavs();
-    toast(favs.has(id) ? t('toastFavOn') : t('toastFavOff'));
-    return favs.has(id);
-  }
 
   /* ---------- 讀取酒譜 ---------- */
   async function loadRecipes() {
@@ -81,15 +66,9 @@
     renderGrid();
   });
 
-  const favToggle = document.getElementById('favToggle');
-  favToggle.addEventListener('click', () => {
-    state.favOnly = !state.favOnly;
-    renderGrid();
-  });
   document.getElementById('clearFilters').addEventListener('click', clearFilters);
   function clearFilters() {
     Object.values(state.filters).forEach((s) => s.clear());
-    state.favOnly = false;
     state.query = '';
     document.getElementById('search').value = '';
     const mini = document.querySelector('.mini-search-input');
@@ -118,7 +97,6 @@
     if (f.region.size && !f.region.has(r.region)) return false;
     if (f.brand.size && !f.brand.has(r.brand)) return false;
     if (f.flavor.size && !(r.flavors || []).some((x) => f.flavor.has(x))) return false;
-    if (state.favOnly && !favs.has(r.id)) return false;
     if (state.query) {
       const hay = [r.name, r.bartender, r.bar, r.county, countyLabel(r.county), brandName(r)].join(' ').toLowerCase();
       if (!hay.includes(state.query)) return false;
@@ -157,14 +135,12 @@
     const grid = document.getElementById('grid');
     grid.innerHTML = list.map(cardHtml).join('');
     window.observeReveal(grid);
-    const hasFilter = state.favOnly || state.query || Object.values(state.filters).some((s) => s.size);
+    const hasFilter = state.query || Object.values(state.filters).some((s) => s.size);
     document.getElementById('resultCount').textContent = t('results', list.length);
     document.getElementById('clearFilters').hidden = !hasFilter;
-    favToggle.setAttribute('aria-pressed', state.favOnly);
-    favToggle.querySelector('.fav-count').textContent = favs.size ? `(${favs.size})` : '';
     const empty = document.getElementById('empty');
     empty.hidden = list.length > 0;
-    empty.querySelector('p').textContent = state.favOnly && favs.size === 0 ? t('emptyFav') : t('emptyTitle');
+    empty.querySelector('p').textContent = t('emptyTitle');
     renderActiveFilters(hasFilter);
   }
 
@@ -179,7 +155,6 @@
     ['region', 'brand', 'flavor'].forEach((group) => {
       state.filters[group].forEach((id) => items.push({ group, id, label: optLabel(group, id) }));
     });
-    if (state.favOnly) items.push({ group: 'fav', label: '♥ ' + t('myFavs') });
     if (state.query) items.push({ group: 'query', label: `“${document.getElementById('search').value.trim()}”` });
     // 每個條件分成兩半：點文字＝打開調整面板，點 ×＝取消這個條件
     afChips.innerHTML = items.map((it) => `
@@ -202,11 +177,7 @@
           <button type="button" class="chip" data-group="${group}" data-id="${o.id}" aria-pressed="${state.filters[group].has(o.id)}">${escapeHtml(o[window.LANG])}</button>`).join('')}
         </div>
       </div>`).join('');
-    afPanel.querySelector('.af-panel-groups').innerHTML = groups + `
-      <div class="af-group">
-        <span class="filter-label"></span>
-        <div class="chips"><button type="button" class="chip chip-fav" data-fav-toggle aria-pressed="${state.favOnly}">♥ ${escapeHtml(t('myFavs'))}</button></div>
-      </div>`;
+    afPanel.querySelector('.af-panel-groups').innerHTML = groups;
     afPanel.querySelector('.af-count').textContent = document.getElementById('resultCount').textContent;
   }
   function openAfPanel() {
@@ -231,8 +202,7 @@
     const x = e.target.closest('.af-chip-x');
     if (x) {
       const group = x.dataset.group;
-      if (group === 'fav') state.favOnly = false;
-      else if (group === 'query') {
+      if (group === 'query') {
         state.query = '';
         document.getElementById('search').value = '';
         const mini = document.querySelector('.mini-search-input');
@@ -248,11 +218,8 @@
     }
     const chip = e.target.closest('.af-panel .chip');
     if (chip) {
-      if (chip.hasAttribute('data-fav-toggle')) state.favOnly = !state.favOnly;
-      else {
-        const set = state.filters[chip.dataset.group];
-        set.has(chip.dataset.id) ? set.delete(chip.dataset.id) : set.add(chip.dataset.id);
-      }
+      const set = state.filters[chip.dataset.group];
+      set.has(chip.dataset.id) ? set.delete(chip.dataset.id) : set.add(chip.dataset.id);
       renderChips();
       renderGrid();
     }
@@ -286,12 +253,11 @@
   window.addEventListener('resize', updateActiveBar);
 
   function cardHtml(r, i) {
-    const fav = favs.has(r.id);
     return `
       <article class="card reveal" style="--d:${(i % 4) * 90}ms" data-id="${escapeHtml(r.id)}" tabindex="0" role="button" aria-label="${escapeHtml(r.name)}">
         <div class="card-media">
           <img src="${escapeHtml(r.photo)}" alt="" loading="lazy">
-          <button type="button" class="fav-btn" data-fav="${escapeHtml(r.id)}" aria-pressed="${fav}" aria-label="${t('favAdd')}">${ICONS.heart}</button>
+          <button type="button" class="fav-btn share-btn" data-share="${escapeHtml(r.id)}" aria-label="${t('share')}">${ICONS.share}</button>
         </div>
         <div class="card-body">
           <p class="kicker">${escapeHtml(optLabel('region', r.region))} · ${escapeHtml(brandName(r))}</p>
@@ -308,14 +274,10 @@
 
   const grid = document.getElementById('grid');
   grid.addEventListener('click', (e) => {
-    const favBtn = e.target.closest('[data-fav]');
-    if (favBtn) {
+    const shareBtn = e.target.closest('[data-share]');
+    if (shareBtn) {
       e.stopPropagation();
-      const on = toggleFav(favBtn.dataset.fav);
-      favBtn.setAttribute('aria-pressed', on);
-      favBtn.classList.remove('pop'); void favBtn.offsetWidth; favBtn.classList.add('pop');
-      if (state.favOnly) renderGrid();
-      else favToggle.querySelector('.fav-count').textContent = favs.size ? `(${favs.size})` : '';
+      openShare(shareBtn.dataset.share);
       return;
     }
     const card = e.target.closest('.card');
@@ -343,7 +305,6 @@
   }
 
   function renderRecipe(r) {
-    const fav = favs.has(r.id);
     const steps = String(r.method || '').split(/\n+/).map((s) => s.trim()).filter(Boolean);
     const grapes = (r.grapes || []).map((g) => optLabel('grape', g)).join(window.LANG === 'en' ? ', ' : '、');
     recipeModal.querySelector('.recipe-media').innerHTML = `<img src="${escapeHtml(r.photo)}" alt="${escapeHtml(r.name)}">`;
@@ -355,7 +316,7 @@
         <span>${ICONS.pin}${escapeHtml(countyLabel(r.county))} · ${escapeHtml(optLabel('region', r.region))}</span>
         <span>${ICONS.calendar}${t('uploaded')} ${fmtDate(r.date)}</span>
         <span>${ICONS.eye}${fmtViews(r.views)} ${t('views')}</span>
-        <button type="button" class="fav-inline" aria-pressed="${fav}">${ICONS.heart}<span>${fav ? t('favAdded') : t('favAdd')}</span></button>
+        <button type="button" class="fav-inline share-inline">${ICONS.share}<span>${t('share')}</span></button>
       </div>
       <dl class="facts">
         <div class="fact"><dt>${t('brand')}</dt><dd>${escapeHtml(brandName(r))}</dd></div>
@@ -371,19 +332,59 @@
         <ol class="method">${steps.map((s) => `<li>${escapeHtml(s)}</li>`).join('')}</ol>
       </div>
       <p class="modal-warning">${t('warning').split(/　| · /).map((x) => `<span>${escapeHtml(x)}</span>`).join('')}</p>`;
-    recipeModal.querySelector('.fav-inline').addEventListener('click', (e) => {
-      const on = toggleFav(r.id);
-      const btn = e.currentTarget;
-      btn.setAttribute('aria-pressed', on);
-      btn.querySelector('span').textContent = on ? t('favAdded') : t('favAdd');
-      renderGrid();
-    });
+    recipeModal.querySelector('.share-inline').addEventListener('click', () => openShare(r.id));
   }
 
   recipeModal.addEventListener('close', () => {
     currentId = null;
     history.replaceState(null, '', location.pathname + location.search);
     renderGrid();
+  });
+
+  /* ---------- 分享 ---------- */
+  const shareModal = document.getElementById('shareModal');
+  let shareData = null;
+  function recipeLink(id) {
+    return location.origin + location.pathname + '#r=' + encodeURIComponent(id);
+  }
+  function openShare(id) {
+    const r = state.recipes.find((x) => x.id === id);
+    if (!r) return;
+    const url = recipeLink(id);
+    const text = t('shareText', r.name, r.bartender);
+    shareData = { url, text, title: r.name };
+    const u = encodeURIComponent(url);
+    const tx = encodeURIComponent(text);
+    const links = {
+      line: `https://social-plugins.line.me/lineit/share?url=${u}&text=${tx}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${u}`,
+      threads: `https://www.threads.net/intent/post?text=${encodeURIComponent(text + ' ' + url)}`,
+      x: `https://twitter.com/intent/tweet?text=${tx}&url=${u}`,
+      whatsapp: `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`,
+      telegram: `https://t.me/share/url?url=${u}&text=${tx}`,
+      email: `mailto:?subject=${encodeURIComponent(r.name)}&body=${encodeURIComponent(text + '\n' + url)}`,
+    };
+    shareModal.querySelectorAll('[data-platform]').forEach((a) => { a.href = links[a.dataset.platform]; });
+    shareModal.querySelector('.share-title').textContent = r.name;
+    shareModal.querySelector('.share-url').value = url;
+    // 手機上可以叫出系統內建的分享選單（Instagram、Messenger、訊息等 App 都在裡面）
+    shareModal.querySelector('[data-native]').hidden = !navigator.share;
+    openDialog(shareModal);
+  }
+  shareModal.addEventListener('click', async (e) => {
+    if (e.target === shareModal || e.target.closest('[data-close]')) { shareModal.close(); return; }
+    if (e.target.closest('[data-copy]')) {
+      const input = shareModal.querySelector('.share-url');
+      try { await navigator.clipboard.writeText(input.value); }
+      catch (err) { input.select(); document.execCommand('copy'); }
+      toast(t('copied'));
+      return;
+    }
+    if (e.target.closest('[data-native]') && shareData) {
+      try { await navigator.share(shareData); shareModal.close(); } catch (err) {}
+      return;
+    }
+    if (e.target.closest('[data-platform]')) setTimeout(() => shareModal.close(), 300);
   });
 
   /* ---------- 視窗開關（共用） ---------- */

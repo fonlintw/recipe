@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=38">
+  <link rel="stylesheet" href="assets/css/style.css?v=40">
 </head>
 <body>
   <div class="demo-bar" id="demoBar" hidden data-i18n="demoBar"></div>
@@ -79,10 +79,6 @@
         <div class="chips" id="chips-flavor"></div>
       </div>
       <div class="filter-meta">
-        <button type="button" class="chip chip-fav" id="favToggle" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>
-          <span data-i18n="myFavs">我的收藏</span> <span class="fav-count"></span>
-        </button>
         <span class="result-count" id="resultCount"></span>
         <button type="button" class="link-btn" id="clearFilters" data-i18n="clear" hidden>清除篩選</button>
       </div>
@@ -239,6 +235,31 @@
     </div>
   </dialog>
 
+  <!-- 分享選單 -->
+  <dialog id="shareModal" aria-labelledby="shareHeading">
+    <div class="modal-panel share-panel">
+      <button type="button" class="modal-close" data-close aria-label="close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <p class="kicker" id="shareHeading" data-i18n="shareTitle">分享這杯酒譜</p>
+      <h3 class="share-title"></h3>
+      <div class="share-grid">
+        <a class="share-item" data-platform="line" target="_blank" rel="noopener"><span class="share-icon" style="background:#06C755"><b>LINE</b></span>LINE</a>
+        <a class="share-item" data-platform="facebook" target="_blank" rel="noopener"><span class="share-icon" style="background:#1877F2"><svg viewBox="0 0 24 24" fill="#fff"><path d="M13.5 21v-7.5h2.5l.4-3h-2.9V8.6c0-.9.3-1.5 1.5-1.5h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.4H8v3h2.6V21h2.9z"/></svg></span>Facebook</a>
+        <a class="share-item" data-platform="threads" target="_blank" rel="noopener"><span class="share-icon" style="background:#000"><b style="font-size:20px">@</b></span>Threads</a>
+        <a class="share-item" data-platform="x" target="_blank" rel="noopener"><span class="share-icon" style="background:#000"><svg viewBox="0 0 24 24" fill="#fff"><path d="M17.8 3h3l-6.6 7.6L22 21h-6.1l-4.8-6.3L5.6 21h-3l7.1-8.1L2.2 3h6.2l4.3 5.7L17.8 3zm-1 16.2h1.7L7.3 4.7H5.5l11.3 14.5z"/></svg></span>X</a>
+        <a class="share-item" data-platform="whatsapp" target="_blank" rel="noopener"><span class="share-icon" style="background:#25D366"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3zm0 16.4c-1.4 0-2.8-.4-4-1.1l-.3-.2-2.7.7.7-2.6-.2-.3A7.4 7.4 0 1 1 12 19.4zm4.1-5.5c-.2-.1-1.3-.7-1.5-.7-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6 6 0 0 1-3-2.6c-.2-.4.2-.4.6-1.2.1-.1 0-.3 0-.4l-.7-1.6c-.2-.4-.4-.4-.5-.4h-.4c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.3c.1.2 1.6 2.5 4 3.5 1.5.6 2 .7 2.8.6.4-.1 1.3-.5 1.5-1.1.2-.5.2-1 .1-1.1l-.6-.4z"/></svg></span>WhatsApp</a>
+        <a class="share-item" data-platform="telegram" target="_blank" rel="noopener"><span class="share-icon" style="background:#229ED9"><svg viewBox="0 0 24 24" fill="#fff"><path d="m20.7 4.3-17.4 6.7c-1.2.5-1.2 1.2-.2 1.5l4.5 1.4 1.7 5.3c.2.6.4.8.8.8.4 0 .6-.2.9-.5l2.2-2.1 4.5 3.3c.8.5 1.4.2 1.6-.8l2.9-13.8c.3-1.2-.4-1.8-1.5-1.3zM9 13.5l9.4-5.9c.4-.3.8-.1.5.2l-7.8 7-.3 3.4L9 13.5z"/></svg></span>Telegram</a>
+        <a class="share-item" data-platform="email"><span class="share-icon" style="background:#555"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>Email</a>
+        <button type="button" class="share-item" data-native><span class="share-icon" style="background:var(--accent)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/></svg></span><span data-i18n="shareMore">其他 App</span></button>
+      </div>
+      <div class="share-copy">
+        <input class="input share-url" readonly aria-label="link">
+        <button type="button" class="btn btn-primary" data-copy><span data-i18n="copyLink">複製連結</span></button>
+      </div>
+    </div>
+  </dialog>
+
   <!-- 往下捲時固定在上方，顯示目前使用中的篩選條件 -->
   <div class="active-filters" id="activeFilters" aria-live="polite">
     <div class="container af-inner">
@@ -264,8 +285,8 @@
 
   <div class="alcohol-warning" role="note" data-i18n="warning">未滿十八歲禁止飲酒</div>
 
-  <script src="assets/js/common.js?v=38"></script>
-  <script src="assets/js/sample-data.js?v=38"></script>
-  <script src="assets/js/app.js?v=38"></script>
+  <script src="assets/js/common.js?v=40"></script>
+  <script src="assets/js/sample-data.js?v=40"></script>
+  <script src="assets/js/app.js?v=40"></script>
 </body>
 </html>

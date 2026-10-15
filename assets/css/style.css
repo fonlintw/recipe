@@ -699,3 +699,39 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
   .recipe-content { padding-bottom: 0; }
   .modal-warning { margin-bottom: 0; }
 }
+
+/* =========================================================
+   分享
+   ========================================================= */
+.share-btn svg { width: 18px; height: 18px; }
+.share-inline svg { width: 16px; height: 16px; }
+.share-panel {
+  flex-direction: column; width: min(460px, calc(100vw - 32px)); padding: 26px 26px 24px; border-radius: 12px;
+}
+.share-title { font-family: var(--font-serif); font-size: 22px; margin: 4px 40px 18px 0; line-height: 1.3; }
+.share-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; margin-bottom: 20px; }
+.share-item {
+  display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none;
+  color: var(--text-2); font-size: 12px; background: none; border: 0; padding: 0; text-align: center;
+}
+.share-item:hover { color: var(--text); text-decoration: none; }
+.share-icon {
+  width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; color: #fff;
+  transition: transform .15s ease;
+}
+.share-item:hover .share-icon { transform: translateY(-2px); }
+.share-icon svg { width: 26px; height: 26px; }
+.share-icon b { font-family: var(--font-caps); font-size: 12px; letter-spacing: .02em; color: #fff; }
+.share-copy { display: flex; gap: 8px; }
+.share-copy .input { flex: 1; min-width: 0; font-size: 13px; padding: 9px 12px; color: var(--text-2); }
+.share-copy .btn { flex-shrink: 0; }
+/* 手機上分享選單從下方滑出，不佔滿整個畫面 */
+@media (max-width: 760px) {
+  #shareModal { inset: auto 0 0 0; width: 100%; height: fit-content; margin: 0; max-height: none; }
+  #shareModal .share-panel {
+    width: 100%; height: auto; max-height: 90dvh; border-radius: 16px 16px 0 0;
+    padding: 22px 18px calc(22px + env(safe-area-inset-bottom));
+  }
+  .share-grid { gap: 14px 4px; }
+  .share-icon { width: 48px; height: 48px; }
+}
