@@ -847,19 +847,19 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
 /* 經典調酒：同系列的淺色背景酒款照，固定正方形 */
 .spec-square { object-fit: cover; background: #e9e4dc; height: auto !important; min-height: 0 !important; aspect-ratio: 1 / 1 !important; align-self: start; }
 
-/* 葡萄品種：非芳香型、芳香型分成兩組色塊 */
+/* 葡萄品種：非芳香型、芳香型分成兩組（沿用網站的黑、灰、紅配色） */
 .grape-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0; }
-.grape-group { --g: #7a5230; --g-bg: #f6f0e8; background: var(--g-bg); border-top: 4px solid var(--g); padding: 18px 18px 8px; }
-.grape-aro { --g: #6f8a1f; --g-bg: #f3f6e7; }
+.grape-group { --g: var(--text); background: var(--bg-2); border-top: 3px solid var(--g); padding: 18px 18px 8px; }
+.grape-aro { --g: var(--accent); }
 .grape-head { margin-bottom: 8px; }
 .grape-badge {
-  display: inline-block; background: var(--g); color: #fff; font-weight: 700; font-size: 15px;
-  letter-spacing: .06em; padding: 4px 14px; border-radius: 999px;
+  display: inline-block; background: var(--g); color: #fff; font-weight: 600; font-size: 14px;
+  letter-spacing: .06em; padding: 3px 12px; border-radius: 999px;
 }
-.grape-head p { margin: 8px 0 0 !important; font-size: 14px !important; color: var(--g) !important; font-weight: 500; }
+.grape-head p { margin: 8px 0 0 !important; font-size: 14px !important; color: var(--text-2) !important; }
 .grape-list { list-style: none; padding: 0 !important; margin: 0; }
-.grape-list li { display: flex; flex-direction: column; gap: 2px; padding: 11px 0; border-top: 1px solid rgba(0,0,0,.08); font-size: 14.5px !important; }
-.grape-list strong { font-size: 17px; color: var(--g); }
+.grape-list li { display: flex; flex-direction: column; gap: 2px; padding: 11px 0; border-top: 1px solid var(--line); font-size: 14.5px !important; }
+.grape-list strong { font-size: 17px; color: var(--text); }
 .grape-list span { color: var(--text-2); }
 @media (max-width: 640px) {
   .grape-groups { grid-template-columns: 1fr; }
