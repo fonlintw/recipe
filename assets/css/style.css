@@ -429,7 +429,7 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
 }
 
 /* =========================================================
-   質感：色塊、等高線紋理、顆粒感
+   質感：色塊、調酒杯線條圖樣、顆粒感
    ========================================================= */
 :root {
   --ice: #f3e9dc;
@@ -446,7 +446,7 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
 }
 .block-navy::before {
   content: ""; position: absolute; inset: -12% 0; z-index: -1;
-  background: url("../img/contours-light.svg") center / cover no-repeat;
+  background: url("../img/glasses-light.svg") 0 0 / 300px 300px repeat;
   transform: translate3d(0, var(--py, 0px), 0);
   will-change: transform;
 }
@@ -466,7 +466,7 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
 }
 .block-ice::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
-  background: url("../img/contours-dark.svg") center / cover no-repeat; opacity: .7;
+  background: url("../img/glasses-dark.svg") 40px 20px / 280px 280px repeat; opacity: .8;
 }
 .block-ice::after { opacity: .35; mix-blend-mode: multiply; }
 
