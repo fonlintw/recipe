@@ -753,3 +753,72 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
   }
   html[lang="en"] .table-stack td[data-en]::before { content: attr(data-en); text-transform: uppercase; }
 }
+/* =========================================================
+   學堂頁：品牌與酒莊圖片
+   ========================================================= */
+.figure { margin: 18px 0; }
+.figure img { width: 100%; height: auto; display: block; background: var(--bg-3); }
+.figure figcaption { margin-top: 8px; font-size: 13px; color: var(--text-3); }
+.figure-wide img { aspect-ratio: 16 / 9; object-fit: cover; }
+.photo-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0; }
+.photo-pair .figure { margin: 0; }
+.photo-pair img { aspect-ratio: 4 / 5; object-fit: cover; }
+.flow-steps { list-style: none; padding: 0; margin: 16px 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.flow-steps li { background: var(--bg-2); padding: 12px 14px; border-left: 3px solid var(--accent); display: flex; flex-direction: column; gap: 2px; font-size: 15px; }
+.flow-steps b { font-family: var(--font-caps); font-size: 12px; letter-spacing: .08em; color: var(--accent); text-transform: uppercase; }
+.brand-row { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: center; margin: 26px 0; }
+.brand-row.reverse .brand-photo { order: 2; }
+.brand-row .figure { margin: 0; }
+.brand-photo img { aspect-ratio: 4 / 5; object-fit: cover; }
+.brand-copy .kicker { display: block; margin: -4px 0 12px; }
+.brand-logo { display: block; height: 64px; width: auto; margin-bottom: 10px; }
+/* La Caravedo Logo：原圖是黑底白字，反轉成白底黑字 */
+.brand-logo-dark { height: 96px; filter: invert(1) grayscale(1) brightness(1.18); mix-blend-mode: multiply; }
+.spec-photo-contain { object-fit: contain !important; background: #fff !important; }
+.spec-note { font-family: var(--font-caps); font-size: 12px; font-weight: 700; letter-spacing: .08em; color: var(--accent); margin: 0 0 6px; text-transform: uppercase; }
+@media (max-width: 640px) {
+  .photo-pair { gap: 8px; }
+  .flow-steps { grid-template-columns: 1fr; }
+  .brand-row { grid-template-columns: 1fr; gap: 16px; }
+  .brand-row.reverse .brand-photo { order: 0; }
+  .brand-photo img { aspect-ratio: 4 / 3; }
+}
+
+/* 學堂頁：前往品牌頁的連結區塊 */
+.brand-cta {
+  display: grid; grid-template-columns: 220px 1fr; align-items: center; gap: 22px; width: 100%;
+  background: var(--bg-2); text-decoration: none; color: var(--text); overflow: hidden;
+  border: 0; padding: 0; text-align: left; cursor: pointer;
+}
+.brand-cta img { width: 100%; height: 100%; min-height: 150px; object-fit: cover; }
+.brand-cta-text { display: flex; flex-direction: column; gap: 6px; padding: 18px 20px 18px 0; color: var(--text-2); font-size: 15px; }
+.brand-cta-text strong { font-size: 20px; color: var(--text); font-weight: 600; }
+.brand-cta:hover strong { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 640px) {
+  .brand-cta { grid-template-columns: 1fr; gap: 0; }
+  .brand-cta img { aspect-ratio: 16 / 9; min-height: 0; }
+  .brand-cta-text { padding: 16px 18px; }
+}
+
+/* Our Brands 跳出視窗 */
+.brand-panel { flex-direction: column; width: min(900px, calc(100vw - 48px)); overflow-y: auto; }
+.brand-panel-body { padding: 40px 48px 48px; }
+.brand-panel-title { font-family: var(--font-serif); font-size: clamp(26px, 3.4vw, 36px); line-height: 1.25; margin: 8px 48px 24px 0; }
+.brand-article { max-width: none; }
+.brand-article section { scroll-margin-top: 20px; }
+@media (max-width: 760px) {
+  .brand-panel { width: 100%; }
+  .brand-panel-body { padding: 26px 18px 48px; }
+  .brand-panel-title { margin-right: 52px; }
+}
+.brand-panel > .modal-warning { margin: 0 !important; flex-shrink: 0; }
+/* 長內容視窗：右上角的 × 捲動時固定在上方 */
+.brand-panel > .modal-close { position: sticky; top: 14px; align-self: flex-end; margin: 14px 14px -54px 0; flex-shrink: 0; }
+@media (max-width: 760px) {
+  .recipe-panel > .modal-close { position: sticky; top: 12px; align-self: flex-end; margin: 12px 12px -52px 0; flex-shrink: 0; }
+}
+
+/* 學堂頁插圖 */
+.article .figure-wide { margin: 4px 0 22px; }
+.pair-caption { margin: -8px 0 20px !important; font-size: 13px !important; color: var(--text-3) !important; }
+.brand-cta-wrap { margin-top: 18px; }

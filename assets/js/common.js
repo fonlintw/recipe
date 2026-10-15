@@ -334,6 +334,7 @@ const ICONS = {
     '.section-head', '.filters',
     '.article .draft-note', '.article h2', '.article h3', '.article section > p', '.article section > ul',
     '.article .info-card', '.article .table-wrap', '.article .spec-recipe',
+    '.article .figure', '.article .brand-row', '.article .flow-steps',
   ].join(',');
   function tagStatic() {
     document.querySelectorAll(AUTO).forEach((el) => {
@@ -479,3 +480,29 @@ const ICONS = {
 
 // 頁尾年份自動更新
 document.querySelectorAll('.footer-year').forEach((el) => { el.textContent = new Date().getFullYear(); });
+
+// 通用的跳出視窗：按鈕加上 data-open-dialog="視窗 id" 就能打開（首頁以外的頁面使用）
+(function () {
+  const openers = document.querySelectorAll('[data-open-dialog]');
+  if (!openers.length) return;
+  function open(dlg) {
+    if (!dlg.open) dlg.showModal();
+    document.body.classList.add('no-scroll');
+    const panel = dlg.querySelector('.modal-panel');
+    if (panel) panel.scrollTop = 0;
+    if (window.observeReveal) window.observeReveal(dlg);
+  }
+  openers.forEach((btn) => btn.addEventListener('click', () => open(document.getElementById(btn.dataset.openDialog))));
+  document.querySelectorAll('dialog').forEach((dlg) => {
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+    dlg.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', () => dlg.close()));
+    dlg.addEventListener('close', () => {
+      if (!document.querySelector('dialog[open]')) document.body.classList.remove('no-scroll');
+    });
+  });
+  // 網址帶 #our-brands 時直接打開品牌視窗（方便分享）
+  if (location.hash === '#our-brands') {
+    const dlg = document.getElementById('brandModal');
+    if (dlg) open(dlg);
+  }
+})();
