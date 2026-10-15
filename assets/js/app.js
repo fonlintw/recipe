@@ -554,6 +554,20 @@
     const m = location.hash.match(/^#r=(.+)$/);
     if (m) openRecipe(decodeURIComponent(m[1]));
     // 從學堂頁點「投稿酒譜」過來時，直接打開表單
+    // 從學堂頁搜尋過來：網址帶 #q=關鍵字，直接套用並捲到結果
+    const q = location.hash.match(/^#q=(.+)$/);
+    if (q) {
+      const term = decodeURIComponent(q[1]);
+      history.replaceState(null, '', location.pathname + location.search);
+      const input = document.getElementById('search');
+      input.value = term;
+      state.query = term.toLowerCase();
+      renderGrid();
+      setTimeout(() => {
+        const top = document.getElementById('allRecipes').getBoundingClientRect().top + window.scrollY - 70;
+        window.scrollTo({ top });
+      }, 50);
+    }
     if (location.hash === '#submit') {
       history.replaceState(null, '', location.pathname + location.search);
       openDialog(submitModal);

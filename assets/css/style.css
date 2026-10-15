@@ -519,7 +519,37 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
 .nav-mini { display: none; align-items: center; }
 .nav-mini-logo { order: -1; margin-right: -12px; }
 .nav-mini-logo img { height: 30px; width: auto; }
-.nav-mini-submit { margin-left: auto; }
+.nav-mini-submit { margin-left: auto; gap: 6px; }
+/* 黏住導覽列裡的搜尋 */
+.mini-search { display: flex; align-items: center; gap: 4px; }
+.mini-search-btn {
+  width: 36px; height: 36px; border-radius: 50%; border: 0; background: none; color: var(--text);
+  display: grid; place-items: center; flex-shrink: 0;
+}
+.mini-search-btn:hover { color: var(--accent); }
+.mini-search-btn svg { width: 20px; height: 20px; }
+.mini-search-input {
+  width: 0; opacity: 0; padding: 7px 0; border: 1px solid transparent; border-radius: 999px;
+  background: #fff; font-size: 15px; outline: none; transition: width .3s ease, opacity .2s ease, padding .3s ease;
+}
+.site-header.searching .mini-search-input { width: 240px; opacity: 1; padding: 7px 14px; border-color: var(--line-strong); }
+.site-header.searching .mini-search-input:focus { border-color: var(--accent); }
+.main-nav a, .nav-mini-submit .btn { white-space: nowrap; }
+@media (max-width: 760px) {
+  /* 手機上導覽列黏住時：縮小間距、按鈕只留文字，讓一行放得下 */
+  .site-header.compact .main-nav { gap: 14px; }
+  .site-header.compact .main-nav a { font-size: 12px; letter-spacing: .08em; }
+  .site-header.compact .nav-mini-submit .btn svg { display: none; }
+  .site-header.compact .nav-mini-submit { gap: 2px; }
+  .mini-search-btn { width: 32px; height: 32px; }
+}
+@media (max-width: 760px) {
+  /* 手機上展開搜尋時，暫時把導覽文字和 Logo 收起來，讓搜尋欄夠寬 */
+  .site-header.searching .main-nav > a, .site-header.searching .nav-mini-submit .btn { display: none; }
+  .site-header.searching .nav-mini-submit { flex: 1; margin-left: 0; }
+  .site-header.searching .mini-search { flex: 1; }
+  .site-header.searching .mini-search-input { width: auto; flex: 1; min-width: 0; }
+}
 .main-nav .nav-mini-submit .btn { color: #fff; border-bottom: 0; letter-spacing: .1em; }
 .main-nav .nav-mini-submit .btn:hover { color: #fff; }
 .main-nav a.nav-mini-logo { padding: 0; border-bottom: 0; }

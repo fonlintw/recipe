@@ -360,9 +360,68 @@ const ICONS = {
         if (b.tagName === 'A') b.href = big.getAttribute('href'); else b.type = 'button';
         b.innerHTML = big.innerHTML;
         if (b.tagName === 'BUTTON') b.addEventListener('click', () => big.click());
+        wrap.appendChild(buildMiniSearch());
         wrap.appendChild(b);
         nav.appendChild(wrap);
       }
+    }
+
+    // 黏住的導覽列裡的搜尋：按放大鏡會在原地展開搜尋欄，不會跳回最上方
+    function buildMiniSearch() {
+      const box = document.createElement('div');
+      box.className = 'mini-search';
+      box.innerHTML = `
+        <button type="button" class="mini-search-btn" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        </button>
+        <input type="search" class="mini-search-input" enterkeyhint="search" autocomplete="off" data-i18n-ph="searchPh" placeholder="${t('searchPh')}" tabindex="-1">`;
+      const btn = box.querySelector('.mini-search-btn');
+      const input = box.querySelector('.mini-search-input');
+      const main = document.getElementById('search');  // 首頁的主搜尋列（學堂頁沒有）
+      function open() {
+        header.classList.add('searching');
+        if (main) input.value = main.value;
+        input.tabIndex = 0;
+        setTimeout(() => input.focus(), 50);
+      }
+      function close() {
+        header.classList.remove('searching');
+        input.tabIndex = -1;
+        input.blur();
+      }
+      btn.addEventListener('click', () => (header.classList.contains('searching') ? close() : open()));
+      input.addEventListener('input', () => {
+        if (!main) return;
+        main.value = input.value;
+        main.dispatchEvent(new Event('input'));
+        // 篩選完讓結果停在畫面上（結果變少時頁面會變短，避免畫面亂跳）
+        setTimeout(() => {
+          const target = document.getElementById('allRecipes');
+          if (!target) return;
+          const top = target.getBoundingClientRect().top;
+          if (top < 0 || top > window.innerHeight * 0.5) {
+            window.scrollTo({ top: top + window.scrollY - 70 });
+          }
+        }, 200);
+      });
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') { close(); return; }
+        if (e.key !== 'Enter') return;
+        e.preventDefault();
+        if (main) {
+          const target = document.getElementById('allRecipes');
+          if (target) window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 70, behavior: 'smooth' });
+          input.blur();
+        } else if (input.value.trim()) {
+          location.href = 'index.html#q=' + encodeURIComponent(input.value.trim());
+        }
+      });
+      // 點搜尋欄以外的地方、而且沒有輸入文字時，自動收起
+      document.addEventListener('click', (e) => {
+        if (header.classList.contains('searching') && !box.contains(e.target) && !input.value) close();
+      });
+      window.__closeMiniSearch = close;
+      return box;
     }
     function measure() { if (top) root.style.setProperty('--top-h', top.offsetHeight + 'px'); }
     measure();
@@ -386,7 +445,10 @@ const ICONS = {
       ticking = false;
       const y = window.scrollY;
       const topH = top ? top.offsetHeight : 0;
-      if (header) header.classList.toggle('compact', y > topH);
+      if (header) {
+        header.classList.toggle('compact', y > topH);
+        if (y <= topH && header.classList.contains('searching') && window.__closeMiniSearch) window.__closeMiniSearch();
+      }
       const max = document.documentElement.scrollHeight - window.innerHeight;
       bar.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
       toTop.classList.toggle('show', y > window.innerHeight * 1.2);
