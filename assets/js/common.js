@@ -408,15 +408,3 @@ const ICONS = {
 
 // 頁尾年份自動更新
 document.querySelectorAll('.footer-year').forEach((el) => { el.textContent = new Date().getFullYear(); });
-
-// 右上角放大鏡：首頁直接跳到搜尋列；其他頁面先回首頁再打開搜尋
-(function () {
-  const btn = document.getElementById('searchToggle');
-  if (!btn) return;
-  btn.addEventListener('click', () => {
-    const input = document.getElementById('search');
-    if (!input) { location.href = 'index.html#search'; return; }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    input.focus({ preventScroll: true });
-  });
-})();

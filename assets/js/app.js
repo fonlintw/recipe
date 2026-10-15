@@ -554,10 +554,6 @@
     const m = location.hash.match(/^#r=(.+)$/);
     if (m) openRecipe(decodeURIComponent(m[1]));
     // 從學堂頁點「投稿酒譜」過來時，直接打開表單
-    if (location.hash === '#search') {
-      history.replaceState(null, '', location.pathname + location.search);
-      document.getElementById('search').focus();
-    }
     if (location.hash === '#submit') {
       history.replaceState(null, '', location.pathname + location.search);
       openDialog(submitModal);
