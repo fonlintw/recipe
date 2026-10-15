@@ -77,7 +77,7 @@ const I18N = {
     searchPh: '搜尋調酒名稱、調酒師、店家…',
     fRegion: '地區',
     fBrand: 'Pisco 品牌',
-    byShort: (name) => `調酒師 ${name}`,
+    byShort: (name) => `By ${name}`,
     featuredLatest: '最新酒譜',
     allRecipes: '所有酒譜',
     typeLocked: (brand, type) => `${brand} 固定為 ${type}`,
@@ -100,7 +100,7 @@ const I18N = {
     flavor: '風味',
     ingredients: '材料',
     method: '製作方式',
-    by: (bartender, bar) => `調酒師 <strong>${bartender}</strong> · ${bar}`,
+    by: (bartender, bar) => `By <strong>${bartender}</strong> · ${bar}`,
     footer: '酒譜由各調酒師投稿分享。請理性飲酒，未成年請勿飲酒。',
     warning: '未滿十八歲禁止飲酒',
     // 投稿表單
