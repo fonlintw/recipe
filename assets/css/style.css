@@ -766,3 +766,18 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
   .brand-row.reverse .brand-photo { order: 0; }
   .brand-photo img { aspect-ratio: 4 / 3; }
 }
+
+/* 學堂頁：前往品牌頁的連結區塊 */
+.brand-cta {
+  display: grid; grid-template-columns: 220px 1fr; align-items: center; gap: 22px;
+  background: var(--bg-2); text-decoration: none; color: var(--text); overflow: hidden;
+}
+.brand-cta img { width: 100%; height: 100%; min-height: 150px; object-fit: cover; }
+.brand-cta-text { display: flex; flex-direction: column; gap: 6px; padding: 18px 20px 18px 0; color: var(--text-2); font-size: 15px; }
+.brand-cta-text strong { font-size: 20px; color: var(--text); font-weight: 600; }
+.brand-cta:hover strong { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 640px) {
+  .brand-cta { grid-template-columns: 1fr; gap: 0; }
+  .brand-cta img { aspect-ratio: 16 / 9; min-height: 0; }
+  .brand-cta-text { padding: 16px 18px; }
+}
