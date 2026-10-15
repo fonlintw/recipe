@@ -678,3 +678,10 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
   .af-group { flex-direction: column; align-items: flex-start; gap: 6px; }
   .af-panel .chips { flex-wrap: wrap; width: auto; margin: 0; padding: 0; overflow: visible; }
 }
+
+/* 沒有篩選條件時的提示 */
+.af-empty {
+  flex-shrink: 0; border: 1px dashed var(--line-strong); background: none; color: var(--text-2);
+  border-radius: 999px; padding: 5px 14px; font-size: 13px; white-space: nowrap;
+}
+.af-empty:hover { border-color: var(--accent); color: var(--accent); }

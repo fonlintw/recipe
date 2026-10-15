@@ -186,7 +186,9 @@
       <span class="af-chip">
         <button type="button" class="af-chip-label" data-open-panel>${escapeHtml(it.label)}</button>
         <button type="button" class="af-chip-x" data-group="${it.group}" data-id="${escapeHtml(it.id || '')}" aria-label="remove">${X_ICON}</button>
-      </span>`).join('');
+      </span>`).join('') || `<button type="button" class="af-empty" data-open-panel>${escapeHtml(t('noFilter'))}</button>`;
+    // 沒有條件時不需要「全部清除」的 ×
+    document.getElementById('afClear').hidden = !hasFilter;
     if (!afPanel.hidden) renderAfPanel();
     updateActiveBar();
   }
@@ -240,7 +242,7 @@
       renderGrid();
       return;
     }
-    if (e.target.closest('[data-open-panel], .af-label')) {
+    if (e.target.closest('[data-open-panel], .af-label, .af-empty')) {
       afPanel.hidden ? openAfPanel() : closeAfPanel();
       return;
     }
@@ -275,8 +277,8 @@
     const groups = filtersBox.querySelectorAll('.filter-group');
     const passed = groups[groups.length - 1].getBoundingClientRect().bottom < headerBottom;
     afBar.style.top = headerBottom + 'px';
-    // 正在調整條件時一律保持顯示
-    afBar.classList.toggle('show', !afPanel.hidden || (afBar.classList.contains('has-filter') && passed));
+    // 篩選按鈕看不到時就顯示（有沒有選條件都顯示）；正在調整條件時一律保持顯示
+    afBar.classList.toggle('show', !afPanel.hidden || passed);
   }
   window.addEventListener('scroll', () => {
     if (!afTicking) { afTicking = true; requestAnimationFrame(updateActiveBar); }
