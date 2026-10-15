@@ -2,25 +2,25 @@
    Pisco 酒譜平台 — 雜誌風格（白底、襯線標題）＋冷色系點綴
    ========================================================= */
 :root {
-  --bg: #ffffff;
-  --bg-2: #f1f4f6;
-  --bg-3: #e6ecf0;
+  --bg: #fcf8f2;
+  --bg-2: #f4ece1;
+  --bg-3: #eadfcf;
   --surface: #ffffff;
-  --line: #dfe5ea;
-  --line-strong: #c4ced6;
-  --text: #0f1d27;
-  --text-2: #43535f;
-  --text-3: #7a8893;
-  --accent: #1d6a85;
-  --accent-strong: #0f4c63;
-  --accent-soft: #e3f1f6;
-  --navy: #0d2433;
+  --line: #e8dccd;
+  --line-strong: #d4c3ae;
+  --text: #2b1d16;
+  --text-2: #5e4a3e;
+  --text-3: #937e6e;
+  --accent: #b4532a;
+  --accent-strong: #8c3b1c;
+  --accent-soft: #f7e4d6;
+  --navy: #3b2118;
   --heart: #e0446a;
   --ok: #1f8a5b;
   --danger: #c9363e;
   --radius: 4px;
   --radius-sm: 4px;
-  --shadow: 0 18px 40px -22px rgba(13, 36, 51, 0.45);
+  --shadow: 0 18px 40px -22px rgba(43, 29, 22, 0.45);
   --font-sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
   --font-serif: "Lora", "Noto Serif TC", "Songti TC", Georgia, serif;
   --font-caps: "Montserrat", "Noto Sans TC", system-ui, sans-serif;
@@ -76,7 +76,7 @@ html:not([lang="en"]) .lang-en { display: none !important; }
 }
 
 /* ---------- 頁首 ---------- */
-.site-header { background: var(--bg); border-bottom: 1px solid var(--line); box-shadow: 0 2px 6px rgba(13,36,51,.04); }
+.site-header { background: var(--bg); border-bottom: 1px solid var(--line); box-shadow: 0 2px 6px rgba(43,29,22,.04); }
 .header-top { display: flex; align-items: center; gap: 20px; padding-top: 26px; padding-bottom: 14px; }
 .brand { display: flex; align-items: center; gap: 16px; color: var(--text); text-decoration: none; flex-shrink: 0; }
 .logo { height: 58px; width: auto; }
@@ -215,7 +215,7 @@ html:not([lang="en"]) .lang-en { display: none !important; }
 .fav-btn {
   position: absolute; right: 10px; top: 10px; z-index: 2; width: 38px; height: 38px; border-radius: 50%;
   display: grid; place-items: center; background: rgba(255,255,255,.92); border: 0; color: var(--text);
-  box-shadow: 0 2px 8px rgba(13,36,51,.18); transition: transform .15s ease;
+  box-shadow: 0 2px 8px rgba(43,29,22,.18); transition: transform .15s ease;
 }
 .fav-btn svg { width: 19px; height: 19px; }
 .fav-btn:hover { transform: scale(1.08); }
@@ -242,9 +242,9 @@ html:not([lang="en"]) .lang-en { display: none !important; }
 
 /* ---------- 跳出視窗（共用） ---------- */
 dialog { border: 0; padding: 0; background: transparent; color: var(--text); max-width: none; max-height: none; }
-dialog::backdrop { background: rgba(13, 36, 51, .55); }
+dialog::backdrop { background: rgba(43, 29, 22, .55); }
 .modal-panel {
-  position: relative; background: #fff; box-shadow: 0 30px 80px -20px rgba(13,36,51,.5);
+  position: relative; background: var(--bg); box-shadow: 0 30px 80px -20px rgba(43,29,22,.5);
   width: min(1000px, calc(100vw - 48px)); max-height: calc(100dvh - 48px); overflow: hidden; display: flex;
 }
 dialog[open] .modal-panel { animation: rise .25s ease; }
@@ -322,7 +322,7 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
 .textarea { min-height: 120px; resize: vertical; }
 .select {
   appearance: none; -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%2343535f' stroke-width='1.6'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%235e4a3e' stroke-width='1.6'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px;
 }
 .field.invalid .input, .field.invalid .select, .field.invalid .textarea, .field.invalid .photo-drop, .field.invalid .check-group { border-color: var(--danger); }
@@ -377,7 +377,7 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* ---------- 頁尾（深藍） ---------- */
-.site-footer { background: var(--navy); color: #a9bccb; padding: 40px 0 48px; font-size: 13px; }
+.site-footer { background: var(--navy); color: #cdb8a6; padding: 40px 0 48px; font-size: 13px; }
 .site-footer .container { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; justify-content: space-between; }
 .site-footer .logo { height: 44px; filter: invert(1); opacity: .9; }
 
@@ -432,7 +432,7 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
    質感：色塊、等高線紋理、顆粒感
    ========================================================= */
 :root {
-  --ice: #e7f0f5;
+  --ice: #f3e9dc;
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -440,8 +440,8 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
 .block-navy {
   position: relative; isolation: isolate; overflow: hidden; color: #fff;
   background:
-    radial-gradient(900px 420px at 88% 0%, rgba(92, 175, 205, .38), transparent 62%),
-    radial-gradient(700px 360px at 0% 100%, rgba(38, 86, 140, .55), transparent 60%),
+    radial-gradient(900px 420px at 88% 0%, rgba(214, 140, 70, .34), transparent 62%),
+    radial-gradient(700px 360px at 0% 100%, rgba(140, 50, 35, .5), transparent 60%),
     var(--navy);
 }
 .block-navy::before {
@@ -454,15 +454,15 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background-image: var(--grain); opacity: .22; mix-blend-mode: overlay;
 }
-.block-navy .eyebrow { color: #8fd3e8; }
+.block-navy .eyebrow { color: #e3a85f; }
 .block-navy h1 { color: #fff; }
-.block-navy .sub, .block-navy p.sub { color: #c3d4e0; }
+.block-navy .sub, .block-navy p.sub { color: #ead9c8; }
 .search-top { color: var(--text); }
 
 /* 冰藍色塊（最新酒譜） */
 .block-ice {
   position: relative; isolation: isolate; overflow: hidden;
-  background: linear-gradient(180deg, var(--ice), #f3f7f9);
+  background: linear-gradient(180deg, var(--ice), #faf4ec);
 }
 .block-ice::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
@@ -481,7 +481,7 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
 /* 區塊標題下的小色條 */
 .section-head h2::after, .article h2::after {
   content: ""; display: block; width: 44px; height: 3px; margin-top: 12px;
-  background: linear-gradient(90deg, var(--accent), #8fd3e8);
+  background: linear-gradient(90deg, var(--accent), #e3a85f);
   transform-origin: left; transition: transform .8s cubic-bezier(.2,.7,.2,1) .2s;
 }
 .js-motion .reveal:not(.in) h2::after, .js-motion .section-head:not(.in) h2::after { transform: scaleX(0); }
@@ -489,7 +489,7 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
 /* 卡片微質感 */
 .card-media::after {
   content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, transparent 60%, rgba(13,36,51,.18));
+  background: linear-gradient(180deg, transparent 60%, rgba(43,29,22,.18));
 }
 .info-card, .spec-recipe, .facts { position: relative; }
 
@@ -513,7 +513,7 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
 
 /* 頁首：往下捲時上半部捲走，只留導覽列黏在頂端（高度不變，不會跳動） */
 .site-header { position: sticky; top: calc(-1 * var(--top-h, 0px)); z-index: 60; transition: box-shadow .3s ease; }
-.site-header.compact { box-shadow: 0 8px 24px -16px rgba(13,36,51,.5); }
+.site-header.compact { box-shadow: 0 8px 24px -16px rgba(43,29,22,.5); }
 .main-nav { align-items: center; }
 .nav-mini { display: none; align-items: center; }
 .nav-mini-logo { order: -1; margin-right: -12px; }
@@ -533,7 +533,7 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
 /* 頂端閱讀進度條 */
 .scroll-progress {
   position: fixed; left: 0; top: 0; z-index: 70; height: 3px; width: 100%;
-  background: linear-gradient(90deg, var(--accent), #8fd3e8);
+  background: linear-gradient(90deg, var(--accent), #e3a85f);
   transform-origin: left; transform: scaleX(0); pointer-events: none;
 }
 
@@ -541,7 +541,7 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
 .to-top {
   position: fixed; right: 20px; bottom: 24px; z-index: 55; width: 46px; height: 46px; border-radius: 50%;
   border: 0; background: var(--navy); color: #fff; display: grid; place-items: center;
-  box-shadow: 0 10px 24px -10px rgba(13,36,51,.6);
+  box-shadow: 0 10px 24px -10px rgba(43,29,22,.6);
   opacity: 0; transform: translateY(12px); pointer-events: none; transition: all .3s ease;
 }
 .to-top.show { opacity: 1; transform: none; pointer-events: auto; }
