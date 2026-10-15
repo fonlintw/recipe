@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=59">
+  <link rel="stylesheet" href="assets/css/style.css?v=60">
 </head>
 <body>
   <header class="site-header">
@@ -158,26 +158,31 @@
         </figure>
         <p class="lang-zh">秘魯 Pisco 的葡萄分成兩大類：<strong>非芳香型</strong>（風味較內斂、結構紮實）與<strong>芳香型</strong>（花香果香明顯）。</p>
         <p class="lang-en">Grapes fall into two families: <strong>non-aromatic</strong> (restrained, structured) and <strong>aromatic</strong> (floral, fruity).</p>
-        <div class="table-wrap">
-          <table class="table table-stack">
-            <thead>
-              <tr>
-                <th><span class="lang-zh">品種</span><span class="lang-en">Grape</span></th>
-                <th><span class="lang-zh">類型</span><span class="lang-en">Family</span></th>
-                <th><span class="lang-zh">風味特色</span><span class="lang-en">Character</span></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td class="cell-head"><strong>Quebranta</strong></td><td data-zh="類型" data-en="Family"><span class="lang-zh">非芳香</span><span class="lang-en">Non-aromatic</span></td><td data-zh="風味特色" data-en="Character"><span class="lang-zh">秘魯最具代表性的品種，結構紮實，帶有青香蕉、堅果與泥土調性</span><span class="lang-en">Peru’s signature grape; firm body, green banana, nutty and earthy notes</span></td></tr>
-              <tr><td class="cell-head"><strong>Negra Criolla</strong></td><td data-zh="類型" data-en="Family"><span class="lang-zh">非芳香</span><span class="lang-en">Non-aromatic</span></td><td data-zh="風味特色" data-en="Character"><span class="lang-zh">風味柔和，帶乾燥果實與葡萄乾感</span><span class="lang-en">Soft, with dried-fruit and raisin notes</span></td></tr>
-              <tr><td class="cell-head"><strong>Mollar</strong></td><td data-zh="類型" data-en="Family"><span class="lang-zh">非芳香</span><span class="lang-en">Non-aromatic</span></td><td data-zh="風味特色" data-en="Character"><span class="lang-zh">果香清淡，口感圓潤</span><span class="lang-en">Light fruit, round palate</span></td></tr>
-              <tr><td class="cell-head"><strong>Uvina</strong></td><td data-zh="類型" data-en="Family"><span class="lang-zh">非芳香</span><span class="lang-en">Non-aromatic</span></td><td data-zh="風味特色" data-en="Character"><span class="lang-zh">產量稀少，帶草本與橄欖般的鹹香調性</span><span class="lang-en">Rare; herbal, olive-like savoury notes</span></td></tr>
-              <tr><td class="cell-head"><strong>Italia</strong></td><td data-zh="類型" data-en="Family"><span class="lang-zh">芳香</span><span class="lang-en">Aromatic</span></td><td data-zh="風味特色" data-en="Character"><span class="lang-zh">花香明亮，帶葡萄柚、柑橘與白花香氣</span><span class="lang-en">Bright and floral; grapefruit, citrus, white flowers</span></td></tr>
-              <tr><td class="cell-head"><strong>Torontel</strong></td><td data-zh="類型" data-en="Family"><span class="lang-zh">芳香</span><span class="lang-en">Aromatic</span></td><td data-zh="風味特色" data-en="Character"><span class="lang-zh">香氣最濃郁的品種之一，帶熱帶水果與花香</span><span class="lang-en">One of the most perfumed; tropical fruit and blossoms</span></td></tr>
-              <tr><td class="cell-head"><strong>Moscatel</strong></td><td data-zh="類型" data-en="Family"><span class="lang-zh">芳香</span><span class="lang-en">Aromatic</span></td><td data-zh="風味特色" data-en="Character"><span class="lang-zh">麝香葡萄香、蜂蜜與橙花</span><span class="lang-en">Muscat grape, honey, orange blossom</span></td></tr>
-              <tr><td class="cell-head"><strong>Albilla</strong></td><td data-zh="類型" data-en="Family"><span class="lang-zh">芳香</span><span class="lang-en">Aromatic</span></td><td data-zh="風味特色" data-en="Character"><span class="lang-zh">香氣細緻，帶青蘋果與柑橘皮</span><span class="lang-en">Delicate; green apple and citrus peel</span></td></tr>
-            </tbody>
-          </table>
+        <div class="grape-groups">
+          <div class="grape-group grape-non">
+            <div class="grape-head">
+              <span class="grape-badge"><span class="lang-zh">非芳香型</span><span class="lang-en">Non-aromatic</span></span>
+              <p><span class="lang-zh">風味內斂、結構紮實，是 Pisco 的骨架</span><span class="lang-en">Restrained and structured — the backbone of Pisco</span></p>
+            </div>
+            <ul class="grape-list">
+            <li><strong>Quebranta</strong><span class="lang-zh">秘魯最具代表性的品種，結構紮實，帶有青香蕉、堅果與泥土調性</span><span class="lang-en">Peru’s signature grape; firm body, green banana, nutty and earthy notes</span></li>
+            <li><strong>Negra Criolla</strong><span class="lang-zh">風味柔和，帶乾燥果實與葡萄乾感</span><span class="lang-en">Soft, with dried-fruit and raisin notes</span></li>
+            <li><strong>Mollar</strong><span class="lang-zh">果香清淡，口感圓潤</span><span class="lang-en">Light fruit, round palate</span></li>
+            <li><strong>Uvina</strong><span class="lang-zh">產量稀少，帶草本與橄欖般的鹹香調性</span><span class="lang-en">Rare; herbal, olive-like savoury notes</span></li>
+            </ul>
+          </div>
+          <div class="grape-group grape-aro">
+            <div class="grape-head">
+              <span class="grape-badge"><span class="lang-zh">芳香型</span><span class="lang-en">Aromatic</span></span>
+              <p><span class="lang-zh">花香、果香明顯，香氣奔放</span><span class="lang-en">Floral and fruity, with expressive aromas</span></p>
+            </div>
+            <ul class="grape-list">
+            <li><strong>Italia</strong><span class="lang-zh">花香明亮，帶葡萄柚、柑橘與白花香氣</span><span class="lang-en">Bright and floral; grapefruit, citrus, white flowers</span></li>
+            <li><strong>Torontel</strong><span class="lang-zh">香氣最濃郁的品種之一，帶熱帶水果與花香</span><span class="lang-en">One of the most perfumed; tropical fruit and blossoms</span></li>
+            <li><strong>Moscatel</strong><span class="lang-zh">麝香葡萄香、蜂蜜與橙花</span><span class="lang-en">Muscat grape, honey, orange blossom</span></li>
+            <li><strong>Albilla</strong><span class="lang-zh">香氣細緻，帶青蘋果與柑橘皮</span><span class="lang-en">Delicate; green apple and citrus peel</span></li>
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -442,7 +447,7 @@
 
   <div class="alcohol-warning" role="note" data-i18n="warning">未滿十八歲禁止飲酒</div>
 
-  <script src="assets/js/common.js?v=59"></script>
+  <script src="assets/js/common.js?v=60"></script>
   <script>
     applyStaticI18n();
     setupLangToggle();
