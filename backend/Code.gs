@@ -320,14 +320,16 @@ function translateRow(r, row) {
       const names = tr(items.map((x) => x[0]).join('\n')).split('\n');
       const amts = tr(items.map((x) => x[1] || '-').join('\n')).split('\n');
       const out = items.map((x, i) => [
-        names.length === items.length ? names[i].trim() : tr(x[0]),
+        cap(names.length === items.length ? names[i].trim() : tr(x[0])),
         x[1] ? (amts.length === items.length ? amts[i].trim() : tr(x[1])) : '',
       ]);
       sh.getRange(r, COL.ingredients_en).setValue(out.map((x) => x[0] + ' | ' + x[1]).join('\n'));
       changed = true;
     }
     if (!get('method_en') && get('method')) {
-      sh.getRange(r, COL.method_en).setValue(tr(String(get('method'))));
+      // 一步一步分開翻，才不會把好幾個步驟合成一行
+      const steps = String(get('method')).split('\n').map((x) => x.trim()).filter(Boolean);
+      sh.getRange(r, COL.method_en).setValue(steps.map((x) => cap(tr(x))).join('\n'));
       changed = true;
     }
   } catch (err) {
@@ -342,6 +344,11 @@ function parseIngredients(v) {
     const i = line.lastIndexOf('|');
     return i < 0 ? [line.trim(), ''] : [line.slice(0, i).trim(), line.slice(i + 1).trim()];
   }).filter((x) => x[0]);
+}
+// 英文開頭字母大寫
+function cap(s) {
+  s = String(s || '').trim();
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 function splitList(v) {
   return String(v || '').split(/[,，、\s]+/).map((s) => s.trim()).filter(Boolean);
