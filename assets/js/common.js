@@ -3,7 +3,7 @@
    ========================================================= */
 
 // 後台網址：階段 2 建好 Google Apps Script 後填入。留空 = 試看版（使用範例資料）
-window.API_URL = '';
+window.API_URL = 'https://script.google.com/macros/s/AKfycbweb88CHHULXpedlGMEWLtGWj86SZMzO2gFjLz5mrUFd2DCsmvTmgfAhLkONFdvOLas1w/exec';
 
 const COUNTIES = [
   { zh: '臺北市', en: 'Taipei City', region: 'north' },
