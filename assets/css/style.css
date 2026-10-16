@@ -873,3 +873,11 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
 @media (max-width: 640px) {
   .vine-row { grid-template-columns: 1fr; gap: 14px; }
 }
+
+/* 學堂頁：目錄與段落標題的編號 */
+.toc a { display: flex; gap: 10px; align-items: baseline; }
+.toc-num { font-family: var(--font-caps); font-size: 11px; font-weight: 700; color: var(--accent); min-width: 18px; }
+.h-num {
+  display: inline-block; margin-right: 12px; font-family: var(--font-caps); font-weight: 700;
+  font-size: .62em; color: var(--accent); letter-spacing: .04em; vertical-align: .18em;
+}
