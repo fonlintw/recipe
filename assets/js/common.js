@@ -68,7 +68,7 @@ const OPTIONS = {
 const I18N = {
   zh: {
     siteName: 'Pisco 酒譜',
-    navRecipes: '酒譜',
+    navRecipes: 'Pisco 酒譜',
     navLearn: 'Pisco 學堂',
     submit: '投稿酒譜',
     demoBar: '試看版：目前顯示的是範例酒譜，投稿不會真的送出。',
@@ -152,7 +152,7 @@ const I18N = {
   },
   en: {
     siteName: 'Pisco Recipes',
-    navRecipes: 'Recipes',
+    navRecipes: 'Pisco Recipes',
     navLearn: 'Pisco 101',
     submit: 'Submit',
     demoBar: 'Preview: showing sample recipes. Submissions are not actually sent.',
