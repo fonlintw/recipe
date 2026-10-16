@@ -882,3 +882,18 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
   font-size: .62em; color: var(--accent); letter-spacing: .04em; vertical-align: .18em;
 }
 .photo-pair-wide img { aspect-ratio: 5 / 4; }
+
+/* ---------- 學堂：手機版凍結段落選單 ---------- */
+.toc-mobile { display: none; }
+@media (max-width: 860px) {
+  .toc-mobile { display: block; position: sticky; top: var(--toc-top, 56px); z-index: 50; background: var(--bg, #fff); border-bottom: 1px solid var(--line); box-shadow: 0 6px 14px -12px rgba(0,0,0,.35); }
+  .toc-mobile-btn { width: 100%; display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: none; border: 0; font: inherit; color: var(--text); text-align: left; cursor: pointer; }
+  .toc-mobile-label { font-family: var(--font-caps); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); flex: none; }
+  .toc-mobile-current { flex: 1; min-width: 0; display: flex; gap: 8px; align-items: baseline; font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .toc-mobile-caret { flex: none; color: var(--text-2); transition: transform .25s ease; }
+  .toc-mobile.open .toc-mobile-caret { transform: rotate(180deg); }
+  .toc-mobile-list { border-top: 1px solid var(--line); padding: 6px 0 10px; max-height: 60vh; overflow-y: auto; }
+  .toc-mobile-list a { display: flex; gap: 12px; align-items: baseline; padding: 11px 16px; color: var(--text-2); text-decoration: none; font-size: 15px; }
+  .toc-mobile-list a.active { color: var(--text); font-weight: 600; background: rgba(208, 57, 31, .06); }
+  .article section { scroll-margin-top: calc(var(--toc-top, 56px) + 60px); }
+}

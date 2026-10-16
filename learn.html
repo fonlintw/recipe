@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=83">
+  <link rel="stylesheet" href="assets/css/style.css?v=84">
 </head>
 <body>
   <header class="site-header">
@@ -47,6 +47,16 @@
       </p>
     </div>
   </section>
+
+  <!-- 手機版：凍結在上方的段落選單（內容由程式從左側目錄複製） -->
+  <div class="toc-mobile" id="tocMobile">
+    <button type="button" class="toc-mobile-btn" aria-expanded="false" aria-controls="tocMobileList">
+      <span class="toc-mobile-label"><span class="lang-zh">目錄</span><span class="lang-en">Contents</span></span>
+      <span class="toc-mobile-current"></span>
+      <svg class="toc-mobile-caret" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <nav class="toc-mobile-list" id="tocMobileList" hidden></nav>
+  </div>
 
   <div class="container learn-layout">
     <aside class="toc">
@@ -439,10 +449,51 @@
 
   <div class="alcohol-warning" role="note" data-i18n="warning">未滿十八歲禁止飲酒</div>
 
-  <script src="assets/js/common.js?v=83"></script>
+  <script src="assets/js/common.js?v=84"></script>
   <script>
     applyStaticI18n();
     setupLangToggle();
+
+    // 手機版段落選單：複製左側目錄，凍結在標題列下方，並顯示目前讀到的段落
+    (function () {
+      const box = document.getElementById('tocMobile');
+      const btn = box.querySelector('.toc-mobile-btn');
+      const list = document.getElementById('tocMobileList');
+      const current = box.querySelector('.toc-mobile-current');
+      const header = document.querySelector('.site-header');
+      list.innerHTML = [...document.querySelectorAll('.toc a')].map((a) => a.outerHTML).join('');
+      const links = [...list.querySelectorAll('a')];
+      const sections = links.map((a) => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+      // 貼在凍結標題列的正下方（標題列滑動後會變矮，所以每次捲動都重新量）
+      function setTop() {
+        const bottom = Math.max(0, Math.round(header.getBoundingClientRect().bottom));
+        document.documentElement.style.setProperty('--toc-top', bottom + 'px');
+      }
+      function toggle(open) {
+        box.classList.toggle('open', open);
+        list.hidden = !open;
+        btn.setAttribute('aria-expanded', open);
+      }
+      function update() {
+        const line = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--toc-top')) || 56) + 80;
+        let idx = 0;
+        sections.forEach((sec, i) => { if (sec.getBoundingClientRect().top <= line) idx = i; });
+        links.forEach((a, i) => a.classList.toggle('active', i === idx));
+        current.innerHTML = links[idx] ? links[idx].innerHTML : '';
+      }
+
+      btn.addEventListener('click', () => toggle(list.hidden));
+      list.addEventListener('click', (e) => { if (e.target.closest('a')) toggle(false); });
+      document.addEventListener('click', (e) => { if (!box.contains(e.target)) toggle(false); });
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; setTop(); update(); }); }
+      }, { passive: true });
+      window.addEventListener('resize', () => { setTop(); update(); });
+      setTop();
+      update();
+    })();
   </script>
 </body>
 </html>
