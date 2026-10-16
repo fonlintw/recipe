@@ -308,7 +308,7 @@ function translateRow(r, row) {
   const sh = getSheet();
   const get = (k) => row[COL[k] - 1];
   const from = get('lang') === 'en' ? 'en' : 'zh-TW';
-  const tr = (s) => (from === 'en' ? s : LanguageApp.translate(s, from, 'en'));
+  const tr = (s) => (from === 'en' ? s : LanguageApp.translate(applyGlossary(s), from, 'en'));
   let changed = false;
   try {
     if (!get('name_en') && get('name')) {
@@ -336,6 +336,29 @@ function translateRow(r, row) {
     console.error('translate failed', err);
   }
   return changed;
+}
+
+/* ---------- 調酒用語對照表：翻譯前先換成正確英文，避免機器亂翻 ----------
+   想新增用語，照格式加一行即可（長的詞放前面） */
+const GLOSSARY = [
+  ['高球杯', ' highball glass '], ['可林杯', ' Collins glass '], ['古典杯', ' rocks glass '],
+  ['淺碟杯', ' coupe '], ['碟形杯', ' coupe '], ['香檳杯', ' flute '], ['馬丁尼杯', ' martini glass '],
+  ['雞尾酒杯', ' cocktail glass '], ['尼克諾拉杯', ' Nick & Nora glass '], ['銅杯', ' copper mug '],
+  ['雪克杯', ' shaker '], ['攪拌杯', ' mixing glass '], ['吧匙', ' bar spoon '],
+  ['乾搖', ' dry shake '], ['雙重過濾', ' double strain '], ['搖盪', ' shake '],
+  ['萊姆角', ' lime wedge '], ['檸檬角', ' lemon wedge '], ['萊姆片', ' lime wheel '], ['檸檬片', ' lemon wheel '],
+  ['萊姆皮', ' lime peel '], ['檸檬皮', ' lemon peel '], ['柳橙皮', ' orange peel '], ['皮油', ' oils '],
+  ['新鮮萊姆汁', ' fresh lime juice '], ['萊姆汁', ' lime juice '], ['檸檬汁', ' lemon juice '],
+  ['薑汁汽水', ' ginger ale '], ['薑汁啤酒', ' ginger beer '], ['通寧水', ' tonic water '], ['蘇打水', ' soda water '],
+  ['簡易糖漿', ' simple syrup '], ['糖漿', ' simple syrup '], ['蛋白', ' egg white '],
+  ['安格仕苦精', ' Angostura bitters '], ['柑橘苦精', ' orange bitters '], ['苦精', ' bitters '],
+  ['香艾酒', ' vermouth '], ['冰球', ' ice ball '], ['大冰塊', ' large ice cube '], ['碎冰', ' crushed ice '],
+  ['補滿', ' top up '],
+];
+function applyGlossary(s) {
+  let out = String(s);
+  GLOSSARY.forEach(([zh, en]) => { out = out.split(zh).join(en); });
+  return out.replace(/ {2,}/g, ' ').trim();
 }
 
 /* ---------- 小工具 ---------- */
