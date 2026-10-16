@@ -454,9 +454,19 @@
         <label class="check-pill"><input type="checkbox" name="${group}" value="${o.id}" ${checked.has(o.id) ? 'checked' : ''}><span>${escapeHtml(o[window.LANG])}</span></label>`).join('');
     });
     applyBrandLock(false);
-    document.querySelectorAll('.ing-row').forEach((row) => {
-      row.querySelector('.ing-item').placeholder = t('ingItemPh');
-      row.querySelector('.ing-amt').placeholder = t('ingAmtPh');
+    refreshIngPlaceholders();
+  }
+
+  // 每一列材料的提示字依序對應 Pisco Sour 的材料；超過的列只顯示「材料／ml」
+  function ingExample(i) {
+    const list = t('ingExamples');
+    return Array.isArray(list) && list[i] ? list[i] : [t('ingItemPh'), t('ingAmtPh')];
+  }
+  function refreshIngPlaceholders() {
+    document.querySelectorAll('.ing-row').forEach((row, i) => {
+      const [item, amt] = ingExample(i);
+      row.querySelector('.ing-item').placeholder = item;
+      row.querySelector('.ing-amt').placeholder = amt;
     });
   }
 
@@ -488,14 +498,16 @@
     const row = document.createElement('div');
     row.className = 'ing-row';
     row.innerHTML = `
-      <input class="input ing-item" maxlength="80" placeholder="${escapeHtml(t('ingItemPh'))}" value="${escapeHtml(item)}">
-      <input class="input ing-amt" maxlength="30" placeholder="${escapeHtml(t('ingAmtPh'))}" value="${escapeHtml(amt)}">
+      <input class="input ing-item" maxlength="80" value="${escapeHtml(item)}">
+      <input class="input ing-amt" maxlength="30" value="${escapeHtml(amt)}">
       <button type="button" class="remove" aria-label="remove">${ICONS.close.replace('<svg', '<svg width="16" height="16"')}</button>`;
     row.querySelector('.remove').addEventListener('click', () => {
       if (ingRows.children.length > 1) row.remove();
       else row.querySelectorAll('input').forEach((i) => (i.value = ''));
+      refreshIngPlaceholders();
     });
     ingRows.appendChild(row);
+    refreshIngPlaceholders();
   }
   document.getElementById('addIng').addEventListener('click', () => {
     addIngRow();
@@ -550,7 +562,7 @@
     photoDrop.querySelector('.photo-empty').hidden = false;
     document.getElementById('brandOtherField').hidden = true;
     ingRows.innerHTML = '';
-    addIngRow(); addIngRow(); addIngRow();
+    for (let i = 0; i < 5; i++) addIngRow();
     form.querySelectorAll('.field.invalid').forEach((f) => f.classList.remove('invalid'));
     buildFormOptions();
   }
