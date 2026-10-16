@@ -864,3 +864,19 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
 @media (max-width: 640px) {
   .grape-groups { grid-template-columns: 1fr; }
 }
+
+/* 學堂頁：每段統一「編號 → 標題 → 摘要 → 圖片 → 內容」 */
+.sec-kicker {
+  display: flex; align-items: center; gap: 10px; margin: 0 0 6px !important;
+  font-family: var(--font-caps); font-size: 12px !important; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--accent) !important;
+}
+.sec-num {
+  display: inline-grid; place-items: center; min-width: 30px; height: 22px; padding: 0 6px;
+  border: 1px solid var(--accent); border-radius: 999px; font-size: 11px; letter-spacing: .04em;
+}
+.article .lead { font-size: 18px !important; line-height: 1.7; color: var(--text) !important; margin: 0 0 18px; }
+.article h2 + .lead { margin-top: -2px; }
+.toc a { display: flex; gap: 8px; align-items: baseline; }
+.toc-num { font-family: var(--font-caps); font-size: 11px; font-weight: 700; color: var(--text-3); min-width: 18px; }
+@media (max-width: 640px) { .article .lead { font-size: 16.5px !important; } }
