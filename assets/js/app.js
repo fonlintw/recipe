@@ -98,10 +98,14 @@
     if (f.brand.size && !f.brand.has(r.brand)) return false;
     if (f.flavor.size && !(r.flavors || []).some((x) => f.flavor.has(x))) return false;
     if (state.query) {
-      const hay = [r.name, r.bartender, r.bar, r.county, countyLabel(r.county), brandName(r)].join(' ').toLowerCase();
+      const hay = [r.name, r.bartender, r.en?.name, r.en?.bartender, r.bar, r.county, countyLabel(r.county), brandName(r)].join(' ').toLowerCase();
       if (!hay.includes(state.query)) return false;
     }
     return true;
+  }
+  // 英文模式下，若酒譜有英文版內容（r.en）就顯示英文
+  function loc(r) {
+    return window.LANG === 'en' && r.en ? { ...r, ...r.en } : r;
   }
   function brandName(r) {
     return r.brand === 'other' && r.brandOther ? r.brandOther : optLabel('brand', r.brand);
@@ -112,7 +116,7 @@
     const box = document.getElementById('featured');
     if (!state.recipes.length) { box.hidden = true; return; }
     box.hidden = false;
-    document.getElementById('featuredList').innerHTML = state.recipes.slice(0, 4).map((r, i) => `
+    document.getElementById('featuredList').innerHTML = state.recipes.slice(0, 4).map(loc).map((r, i) => `
       <button type="button" class="feature-item reveal reveal-photo" style="--d:${i * 110}ms" data-open="${escapeHtml(r.id)}">
         <span class="feature-thumb"><img src="${escapeHtml(r.photo)}" alt="" loading="lazy"></span>
         <span class="feature-text">
@@ -253,6 +257,7 @@
   window.addEventListener('resize', updateActiveBar);
 
   function cardHtml(r, i) {
+    r = loc(r);
     return `
       <article class="card reveal" style="--d:${(i % 4) * 90}ms" data-id="${escapeHtml(r.id)}" tabindex="0" role="button" aria-label="${escapeHtml(r.name)}">
         <div class="card-media">
@@ -305,6 +310,7 @@
   }
 
   function renderRecipe(r) {
+    r = loc(r);
     const steps = String(r.method || '').split(/\n+/).map((s) => s.trim()).filter(Boolean);
     const grapes = (r.grapes || []).map((g) => optLabel('grape', g)).join(window.LANG === 'en' ? ', ' : '、');
     recipeModal.querySelector('.recipe-media').innerHTML = `<img src="${escapeHtml(r.photo)}" alt="${escapeHtml(r.name)}">`;
@@ -348,8 +354,9 @@
     return location.origin + location.pathname + '#r=' + encodeURIComponent(id);
   }
   function openShare(id) {
-    const r = state.recipes.find((x) => x.id === id);
-    if (!r) return;
+    const found = state.recipes.find((x) => x.id === id);
+    if (!found) return;
+    const r = loc(found);
     const url = recipeLink(id);
     const text = t('shareText', r.name, r.bartender);
     shareData = { url, text, title: r.name };
