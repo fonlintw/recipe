@@ -34,6 +34,7 @@ const COLUMNS = [
   ['lang', '投稿語言'],
   ['photo', '照片網址'],
   ['id', '編號'],
+  ['bar_en', '英文店家名'],
 ];
 const COL = {};
 COLUMNS.forEach(([key], i) => { COL[key] = i + 1; });
@@ -147,6 +148,7 @@ function toRecipe(row) {
   if (get('bartender_en')) en.bartender = String(get('bartender_en'));
   if (get('ingredients_en')) en.ingredients = parseIngredients(get('ingredients_en'));
   if (get('method_en')) en.method = String(get('method_en'));
+  if (get('bar_en')) en.bar = String(get('bar_en'));
   if (Object.keys(en).length) r.en = en;
   return r;
 }
@@ -158,6 +160,7 @@ function doPost(e) {
   try {
     if (body.action === 'submit') return json(handleSubmit(body));
     if (body.action === 'view') return json(handleView(body.id));
+    if (body.action === 'setEn') return json(handleSetEn(body));
   } catch (err) {
     console.error(err);
     return json({ ok: false, error: 'server error' });
@@ -246,6 +249,36 @@ function handleSubmit(d) {
     console.error('mail failed', err);
   }
   return { ok: true, id: id };
+}
+
+/* ---------- 管理用：直接寫入潤飾後的英文（需要管理金鑰） ---------- */
+// 執行一次 makeAdminKey 產生金鑰；金鑰只存在這個專案的「指令碼屬性」，不會出現在程式碼裡
+function makeAdminKey() {
+  const key = Utilities.getUuid().replace(/-/g, '');
+  PropertiesService.getScriptProperties().setProperty('ADMIN_KEY', key);
+  SpreadsheetApp.getUi().alert('管理金鑰（請複製給 Claude）：\n\n' + key);
+}
+
+function handleSetEn(d) {
+  const key = PropertiesService.getScriptProperties().getProperty('ADMIN_KEY');
+  if (!key || d.key !== key) return { ok: false, error: 'unauthorized' };
+  const sh = getSheet();
+  if (sh.getRange(1, COLUMNS.length).getValue() !== COLUMNS[COLUMNS.length - 1][1]) {
+    sh.getRange(1, 1, 1, COLUMNS.length).setValues([COLUMNS.map((c) => c[1])]).setFontWeight('bold').setBackground('#f3f3f3');
+  }
+  const results = [];
+  (Array.isArray(d.items) ? d.items : []).forEach((it) => {
+    const row = findRow(String(it.id || ''));
+    if (!row) { results.push({ id: it.id, ok: false }); return; }
+    const put = (k, v) => { if (typeof v === 'string') sh.getRange(row, COL[k]).setValue(v); };
+    put('name_en', it.name);
+    put('bartender_en', it.bartender);
+    put('bar_en', it.bar);
+    if (Array.isArray(it.ingredients)) put('ingredients_en', it.ingredients.map((x) => x[0] + ' | ' + (x[1] || '')).join('\n'));
+    put('method_en', it.method);
+    results.push({ id: it.id, ok: true });
+  });
+  return { ok: true, results: results };
 }
 
 function handleView(id) {
@@ -343,17 +376,18 @@ function translateRow(r, row) {
 const GLOSSARY = [
   ['高球杯', ' highball glass '], ['可林杯', ' Collins glass '], ['古典杯', ' rocks glass '],
   ['淺碟杯', ' coupe '], ['碟形杯', ' coupe '], ['香檳杯', ' flute '], ['馬丁尼杯', ' martini glass '],
-  ['雞尾酒杯', ' cocktail glass '], ['尼克諾拉杯', ' Nick & Nora glass '], ['銅杯', ' copper mug '],
+  ['雞尾酒杯', ' cocktail glass '], ['香檳碗形杯', ' champagne saucer '], ['碗形杯', ' saucer '], ['尼克諾拉杯', ' Nick & Nora glass '], ['銅杯', ' copper mug '],
   ['雪克杯', ' shaker '], ['攪拌杯', ' mixing glass '], ['吧匙', ' bar spoon '],
-  ['乾搖', ' dry shake '], ['雙重過濾', ' double strain '], ['搖盪', ' shake '],
+  ['乾搖', ' dry shake '], ['濾入', ' strain into '], ['酒籤', ' cocktail pick '], ['冰鎮', ' chilled '], ['雙重過濾', ' double strain '], ['搖盪', ' shake '],
   ['萊姆角', ' lime wedge '], ['檸檬角', ' lemon wedge '], ['萊姆片', ' lime wheel '], ['檸檬片', ' lemon wheel '],
   ['萊姆皮', ' lime peel '], ['檸檬皮', ' lemon peel '], ['柳橙皮', ' orange peel '], ['皮油', ' oils '],
   ['新鮮萊姆汁', ' fresh lime juice '], ['萊姆汁', ' lime juice '], ['檸檬汁', ' lemon juice '],
   ['薑汁汽水', ' ginger ale '], ['薑汁啤酒', ' ginger beer '], ['通寧水', ' tonic water '], ['蘇打水', ' soda water '],
-  ['簡易糖漿', ' simple syrup '], ['糖漿', ' simple syrup '], ['蛋白', ' egg white '],
+  ['簡易糖漿', ' simple syrup '], ['純糖漿', ' simple syrup '], ['鳳梨糖漿', ' pineapple syrup '], ['楓糖糖漿', ' maple syrup '],
+  ['楓糖漿', ' maple syrup '], ['蜂蜜糖漿', ' honey syrup '], ['接骨木花糖漿', ' elderflower syrup '], ['糖漿', ' syrup '], ['蛋白', ' egg white '],
   ['安格仕苦精', ' Angostura bitters '], ['柑橘苦精', ' orange bitters '], ['苦精', ' bitters '],
-  ['香艾酒', ' vermouth '], ['冰球', ' ice ball '], ['大冰塊', ' large ice cube '], ['碎冰', ' crushed ice '],
-  ['補滿', ' top up '],
+  ['不甜香艾酒', ' dry vermouth '], ['甜香艾酒', ' sweet vermouth '], ['香艾酒', ' vermouth '], ['冰球', ' ice ball '], ['大冰塊', ' large ice cube '], ['碎冰', ' crushed ice '],
+  ['補滿', ' top up '], ['顆', ' '],
 ];
 function applyGlossary(s) {
   let out = String(s);
