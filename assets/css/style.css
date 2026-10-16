@@ -864,3 +864,12 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
 @media (max-width: 640px) {
   .grape-groups { grid-template-columns: 1fr; }
 }
+
+/* 品牌視窗「從葡萄園開始」：單張直式照片＋文字並排 */
+.vine-row { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 26px; align-items: center; margin: 14px 0 22px; }
+.vine-row .figure { margin: 0; }
+.vine-row img { aspect-ratio: 4 / 5; object-fit: cover; }
+.vine-text p { margin: 0 0 12px; }
+@media (max-width: 640px) {
+  .vine-row { grid-template-columns: 1fr; gap: 14px; }
+}
