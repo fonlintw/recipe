@@ -309,9 +309,27 @@
     history.replaceState(null, '', '#r=' + encodeURIComponent(id));
   }
 
+  // 把做法拆成一步一步：有換行就照換行；投稿者寫成一整段時，
+  // 依「1. 2. ③」這類編號，或句號、分號自動分段
+  function splitSteps(text) {
+    const lines = String(text || '').split(/\n+/).map((x) => x.trim()).filter(Boolean);
+    // 每行開頭的編號拿掉（網站會自己編號，避免出現兩次）
+    const noNum = (x) => x.replace(/^\s*(?:\(?\d{1,2}[.、)）:：](?!\d)|[①②③④⑤⑥⑦⑧⑨⑩]|步驟\s*[一二三四五六七八九十\d]+[:：、]?|Step\s*\d+[.:)]?)\s*/i, '');
+    if (lines.length !== 1) return lines.map(noNum).filter(Boolean);
+    const one = lines[0];
+    const clean = (arr) => arr.map((x) => x.trim().replace(/^[，,、；;。.\s]+/, '')).filter((x) => x.length > 1);
+    // 有編號（1. / 1、 / (1) / ① / 步驟一）就照編號拆
+    const num = /(?:^|\s|[。；;，,]|(?<=[\u4e00-\u9fff]))\s*(?:\(?\d{1,2}[.、)）:：](?!\d)|步驟\s*[一二三四五六七八九十\d]+[:：、]?|(?:Step\s*)\d+[.:)]?)\s*/gi;
+    const byNum = clean(one.replace(/[①②③④⑤⑥⑦⑧⑨⑩]/g, ' 1. ').split(num));
+    if (byNum.length > 1) return byNum;
+    // 沒編號就用句號、分號、驚嘆號分段（英文的句點後面要接大寫字母才算）
+    const bySentence = clean(one.split(/(?<=[。；;！!])|(?<=\.)\s+(?=[A-Z])/));
+    return bySentence.length > 1 ? bySentence : lines;
+  }
+
   function renderRecipe(r) {
     r = loc(r);
-    const steps = String(r.method || '').split(/\n+/).map((s) => s.trim()).filter(Boolean);
+    const steps = splitSteps(r.method);
     const grapes = (r.grapes || []).map((g) => optLabel('grape', g)).join(window.LANG === 'en' ? ', ' : '、');
     recipeModal.querySelector('.recipe-media').innerHTML = `<img src="${escapeHtml(r.photo)}" alt="${escapeHtml(r.name)}">`;
     recipeModal.querySelector('.recipe-content').innerHTML = `
