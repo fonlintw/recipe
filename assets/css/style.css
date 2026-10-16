@@ -881,3 +881,4 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
   display: inline-block; margin-right: 12px; font-family: var(--font-caps); font-weight: 700;
   font-size: .62em; color: var(--accent); letter-spacing: .04em; vertical-align: .18em;
 }
+.photo-pair-wide img { aspect-ratio: 5 / 4; }
