@@ -906,3 +906,5 @@ html[lang="zh-Hant"] .badge { letter-spacing: .04em; font-family: inherit; font-
 .feature-thumb .badges { top: 6px; left: 6px; gap: 4px; }
 .feature-thumb .badge { font-size: 10px; padding: 3px 6px; }
 .tag.tag-badge { background: var(--accent); border-color: var(--accent); color: #fff; }
+/* 「經典」標籤固定黑色 */
+.badge.is-classic, .tag.tag-badge.is-classic { background: var(--navy, #121212); border-color: var(--navy, #121212); }

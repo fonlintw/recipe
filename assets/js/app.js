@@ -110,7 +110,11 @@
   // 你在試算表「標籤」欄填的徽章（例如：經典、本月推薦），顯示在照片左上角
   function badgesHtml(r) {
     if (!r.badges || !r.badges.length) return '';
-    return `<span class="badges">${r.badges.map((b) => `<span class="badge">${escapeHtml(badgeLabel(b))}</span>`).join('')}</span>`;
+    return `<span class="badges">${r.badges.map((b) => `<span class="badge${badgeClass(b)}">${escapeHtml(badgeLabel(b))}</span>`).join('')}</span>`;
+  }
+  // 「經典」標籤用黑色，其他標籤用紅色
+  function badgeClass(b) {
+    return b === '經典' || b === '經典酒譜' ? ' is-classic' : '';
   }
   function brandName(r) {
     return r.brand === 'other' && r.brandOther ? r.brandOther : optLabel('brand', r.brand);
@@ -339,7 +343,7 @@
     const grapes = (r.grapes || []).map((g) => optLabel('grape', g)).join(window.LANG === 'en' ? ', ' : '、');
     recipeModal.querySelector('.recipe-media').innerHTML = `<img src="${escapeHtml(r.photo)}" alt="${escapeHtml(r.name)}">`;
     recipeModal.querySelector('.recipe-content').innerHTML = `
-      <div class="card-tags">${(r.badges || []).map((b) => `<span class="tag tag-badge">${escapeHtml(badgeLabel(b))}</span>`).join('')}${(r.flavors || []).map((f) => `<span class="tag">${escapeHtml(optLabel('flavor', f))}</span>`).join('')}</div>
+      <div class="card-tags">${(r.badges || []).map((b) => `<span class="tag tag-badge${badgeClass(b)}">${escapeHtml(badgeLabel(b))}</span>`).join('')}${(r.flavors || []).map((f) => `<span class="tag">${escapeHtml(optLabel('flavor', f))}</span>`).join('')}</div>
       <h2 id="recipeTitle">${escapeHtml(r.name)}</h2>
       <p class="recipe-by">${t('by', escapeHtml(r.bartender), 'From <strong>' + escapeHtml(r.bar) + '</strong>')}</p>
       <div class="recipe-stats">
