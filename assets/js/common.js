@@ -252,6 +252,14 @@ function t(key, ...args) {
   const v = (I18N[window.LANG] && I18N[window.LANG][key]) ?? I18N.zh[key] ?? key;
   return typeof v === 'function' ? v(...args) : v;
 }
+// 常用標籤的英文；沒列在這裡的標籤，英文版會直接顯示原本的字
+const BADGE_EN = {
+  '經典': 'Classic', '經典酒譜': 'Classic', '本月推薦': 'Pick of the Month', '店長精選': 'Editor’s Pick',
+  '編輯精選': 'Editor’s Pick', '新品': 'New', '得獎作品': 'Award Winner', '季節限定': 'Seasonal', '人氣': 'Popular',
+};
+function badgeLabel(b) {
+  return window.LANG === 'en' && BADGE_EN[b] ? BADGE_EN[b] : b;
+}
 function optLabel(group, id) {
   const o = OPTIONS[group].find((x) => x.id === id);
   return o ? o[window.LANG] : id;

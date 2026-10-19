@@ -12,7 +12,7 @@ function unsplash(id) {
 
 window.SAMPLE_RECIPES = [
   {
-    id: 'demo-1', date: '2026-10-12', name: '安地斯晨霧', glass: 'coupe',
+    id: 'demo-1', date: '2026-10-12', badges: ['本月推薦'], name: '安地斯晨霧', glass: 'coupe',
     brand: 'porton', piscoType: 'mostoverde', grapes: ['quebranta', 'torontel'],
     flavors: ['sweetsour'], county: '臺北市', bar: 'Bar Uno', bartender: '林小安',
     ingredients: [['Pisco Portón Mosto Verde', '50ml'], ['新鮮萊姆汁', '25ml'], ['糖漿 1:1', '20ml'], ['蛋白', '1 顆'], ['安格仕苦精', '3 dash']],
@@ -39,7 +39,7 @@ window.SAMPLE_RECIPES = [
     en: {"name": "Blue Coast", "bartender": "Huang Ta-hai", "ingredients": [["Pisco La Caravedo Quebranta", "50ml"], ["Dry vermouth", "20ml"], ["White crème de cacao", "5ml"], ["Saline solution", "2 drops"]], "method": "Add all ingredients to a mixing glass with ice\nStir for 25 seconds until well chilled\nStrain into a chilled Nick & Nora glass\nExpress a lemon peel over the top"},
   },
   {
-    id: 'demo-4', date: '2026-09-28', name: '茉莉氣泡', glass: 'highball',
+    id: 'demo-4', date: '2026-09-28', badges: ['經典', '店長精選'], name: '茉莉氣泡', glass: 'highball',
     brand: 'caravedo', piscoType: 'puro', grapes: ['italia'],
     flavors: ['sparkling'], county: '新竹市', bar: 'Bloom', bartender: '吳曉茉',
     ingredients: [['Pisco La Caravedo Italia', '40ml'], ['冷泡茉莉綠茶', '60ml'], ['接骨木花糖漿', '10ml'], ['蘇打水', '補滿']],

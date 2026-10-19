@@ -35,6 +35,7 @@ const COLUMNS = [
   ['photo', '照片網址'],
   ['id', '編號'],
   ['bar_en', '英文店家名'],
+  ['badges', '標籤（例：經典、本月推薦、店長精選，多個用逗號分開）'],
 ];
 const COL = {};
 COLUMNS.forEach(([key], i) => { COL[key] = i + 1; });
@@ -142,6 +143,7 @@ function toRecipe(row) {
     method: String(get('method')),
     photo: String(get('photo')),
     views: Number(get('views')) || 0,
+    badges: String(get('badges') || '').split(/[,，、\n]+/).map((x) => x.trim()).filter(Boolean),
   };
   const en = {};
   if (get('name_en')) en.name = String(get('name_en'));
@@ -256,6 +258,8 @@ function handleSubmit(d) {
 function makeAdminKey() {
   const key = Utilities.getUuid().replace(/-/g, '');
   PropertiesService.getScriptProperties().setProperty('ADMIN_KEY', key);
+  // 順便補上新增欄位的標題
+  getSheet().getRange(1, 1, 1, COLUMNS.length).setValues([COLUMNS.map((c) => c[1])]).setFontWeight('bold').setBackground('#f3f3f3');
   SpreadsheetApp.getUi().alert('管理金鑰（請複製給 Claude）：\n\n' + key);
 }
 
@@ -276,6 +280,7 @@ function handleSetEn(d) {
     put('bar_en', it.bar);
     if (Array.isArray(it.ingredients)) put('ingredients_en', it.ingredients.map((x) => x[0] + ' | ' + (x[1] || '')).join('\n'));
     put('method_en', it.method);
+    if (Array.isArray(it.badges)) put('badges', it.badges.join('、'));
     results.push({ id: it.id, ok: true });
   });
   return { ok: true, results: results };

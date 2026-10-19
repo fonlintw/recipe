@@ -107,6 +107,11 @@
   function loc(r) {
     return window.LANG === 'en' && r.en ? { ...r, ...r.en } : r;
   }
+  // 你在試算表「標籤」欄填的徽章（例如：經典、本月推薦），顯示在照片左上角
+  function badgesHtml(r) {
+    if (!r.badges || !r.badges.length) return '';
+    return `<span class="badges">${r.badges.map((b) => `<span class="badge">${escapeHtml(badgeLabel(b))}</span>`).join('')}</span>`;
+  }
   function brandName(r) {
     return r.brand === 'other' && r.brandOther ? r.brandOther : optLabel('brand', r.brand);
   }
@@ -118,7 +123,7 @@
     box.hidden = false;
     document.getElementById('featuredList').innerHTML = state.recipes.slice(0, 4).map(loc).map((r, i) => `
       <button type="button" class="feature-item reveal reveal-photo" style="--d:${i * 110}ms" data-open="${escapeHtml(r.id)}">
-        <span class="feature-thumb"><img src="${escapeHtml(r.photo)}" alt="" loading="lazy"></span>
+        <span class="feature-thumb"><img src="${escapeHtml(r.photo)}" alt="" loading="lazy">${badgesHtml(r)}</span>
         <span class="feature-text">
           <span class="kicker">${escapeHtml(optLabel('region', r.region))} · ${escapeHtml(brandName(r))}</span>
           <span class="feature-item-title">${escapeHtml(r.name)}</span>
@@ -261,6 +266,7 @@
     return `
       <article class="card reveal" style="--d:${(i % 4) * 90}ms" data-id="${escapeHtml(r.id)}" tabindex="0" role="button" aria-label="${escapeHtml(r.name)}">
         <div class="card-media">
+          ${badgesHtml(r)}
           <img src="${escapeHtml(r.photo)}" alt="" loading="lazy">
           <button type="button" class="fav-btn share-btn" data-share="${escapeHtml(r.id)}" aria-label="${t('share')}">${ICONS.share}</button>
         </div>
@@ -333,7 +339,7 @@
     const grapes = (r.grapes || []).map((g) => optLabel('grape', g)).join(window.LANG === 'en' ? ', ' : '、');
     recipeModal.querySelector('.recipe-media').innerHTML = `<img src="${escapeHtml(r.photo)}" alt="${escapeHtml(r.name)}">`;
     recipeModal.querySelector('.recipe-content').innerHTML = `
-      <div class="card-tags">${(r.flavors || []).map((f) => `<span class="tag">${escapeHtml(optLabel('flavor', f))}</span>`).join('')}</div>
+      <div class="card-tags">${(r.badges || []).map((b) => `<span class="tag tag-badge">${escapeHtml(badgeLabel(b))}</span>`).join('')}${(r.flavors || []).map((f) => `<span class="tag">${escapeHtml(optLabel('flavor', f))}</span>`).join('')}</div>
       <h2 id="recipeTitle">${escapeHtml(r.name)}</h2>
       <p class="recipe-by">${t('by', escapeHtml(r.bartender), 'From <strong>' + escapeHtml(r.bar) + '</strong>')}</p>
       <div class="recipe-stats">

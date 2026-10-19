@@ -897,3 +897,12 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
   .toc-mobile-list a.active { color: var(--text); font-weight: 600; background: rgba(208, 57, 31, .06); }
   .article section { scroll-margin-top: calc(var(--toc-top, 56px) + 60px); }
 }
+
+/* ---------- 標籤徽章（照片左上角） ---------- */
+.card-media, .feature-thumb { position: relative; }
+.badges { position: absolute; top: 10px; left: 10px; display: flex; flex-wrap: wrap; gap: 6px; max-width: calc(100% - 60px); pointer-events: none; z-index: 2; }
+.badge { background: var(--accent); color: #fff; font-family: var(--font-caps); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 4px 8px; line-height: 1.2; box-shadow: 0 2px 6px rgba(0,0,0,.18); }
+html[lang="zh-Hant"] .badge { letter-spacing: .04em; font-family: inherit; font-size: 12px; }
+.feature-thumb .badges { top: 6px; left: 6px; gap: 4px; }
+.feature-thumb .badge { font-size: 10px; padding: 3px 6px; }
+.tag.tag-badge { background: var(--accent); border-color: var(--accent); color: #fff; }
