@@ -771,7 +771,7 @@ body { padding-bottom: calc(var(--warn-h) + env(safe-area-inset-bottom)); }
 .brand-row .figure { margin: 0; }
 .brand-photo img { aspect-ratio: 4 / 5; object-fit: cover; }
 .brand-copy .kicker { display: block; margin: -4px 0 12px; }
-.brand-logo { display: block; height: 64px; width: auto; margin-bottom: 10px; }
+.brand-logo { display: block; height: 64px; width: auto; margin: 0 auto 10px; }
 /* La Caravedo Logo 和 Portón logo 一樣高 */
 .brand-logo-dark { height: 64px; }
 .spec-photo-contain { object-fit: contain !important; background: #fff !important; }
