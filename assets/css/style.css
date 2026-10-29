@@ -909,3 +909,9 @@ html[lang="zh-Hant"] .badge { letter-spacing: .04em; font-family: inherit; font-
 /* 「經典」標籤固定黑色 */
 .badge.is-classic, .tag.tag-badge.is-classic { background: var(--navy, #121212); border-color: var(--navy, #121212); }
 .check-pill[hidden] { display: none; }
+/* 手機版：照片上的標籤縮小，長標籤不會蓋住整張照片 */
+@media (max-width: 640px) {
+  .badges { top: 6px; left: 6px; gap: 4px; max-width: calc(100% - 48px); }
+  .badge, html[lang="zh-Hant"] .badge { font-size: 10px; padding: 2px 6px; letter-spacing: .02em; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+}
+@media (max-width: 640px) { .feature-thumb .badges { max-width: calc(100% - 12px); } .feature-thumb .badge { font-size: 9px; padding: 2px 5px; } }
