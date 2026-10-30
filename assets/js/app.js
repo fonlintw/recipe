@@ -341,7 +341,10 @@
     r = loc(r);
     const steps = splitSteps(r.method);
     const grapes = (r.grapes || []).map((g) => optLabel('grape', g)).join(window.LANG === 'en' ? ', ' : '、');
-    recipeModal.querySelector('.recipe-media').innerHTML = `<img src="${escapeHtml(r.photo)}" alt="${escapeHtml(r.name)}">`;
+    const media = recipeModal.querySelector('.recipe-media');
+    media.innerHTML = `<img src="${escapeHtml(r.photo)}" alt="${escapeHtml(r.name)}">`;
+    // 同一張照片模糊後當背景，照片完整置中顯示、不裁切
+    media.style.setProperty('--photo', `url("${String(r.photo).replace(/["\\]/g, '')}")`);
     recipeModal.querySelector('.recipe-content').innerHTML = `
       <div class="card-tags">${(r.badges || []).map((b) => `<span class="tag tag-badge${badgeClass(b)}">${escapeHtml(badgeLabel(b))}</span>`).join('')}${(r.flavors || []).map((f) => `<span class="tag">${escapeHtml(optLabel('flavor', f))}</span>`).join('')}</div>
       <h2 id="recipeTitle">${escapeHtml(r.name)}</h2>

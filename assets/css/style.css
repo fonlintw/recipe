@@ -258,8 +258,10 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
 }
 .modal-close svg { width: 20px; height: 20px; }
 
-.recipe-panel .recipe-media { flex: 0 0 46%; background: var(--bg-3); }
-.recipe-panel .recipe-media img { width: 100%; height: 100%; object-fit: cover; }
+/* 酒譜照片：完整置中顯示不裁切，空白處用同一張照片模糊當背景 */
+.recipe-panel .recipe-media { flex: 0 0 46%; background: var(--bg-3); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.recipe-panel .recipe-media::before { content: ""; position: absolute; inset: -40px; background: var(--photo) center / cover no-repeat; filter: blur(28px) brightness(.85); }
+.recipe-panel .recipe-media img { position: relative; width: 100%; height: 100%; object-fit: contain; }
 .recipe-content { flex: 1; overflow-y: auto; padding: 40px 40px 40px; }
 .recipe-content h2 { font-family: var(--font-serif); font-size: 34px; line-height: 1.2; margin: 8px 48px 8px 0; }
 .recipe-by { color: var(--text-2); margin: 0 0 14px; font-family: var(--font-serif); font-size: 17px; }
@@ -294,7 +296,8 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
 @media (max-width: 760px) {
   dialog { margin: 0; width: 100%; height: 100%; max-height: 100dvh; }
   .modal-panel { width: 100%; height: 100dvh; max-height: 100dvh; flex-direction: column; overflow-y: auto; }
-  .recipe-panel .recipe-media { flex: none; aspect-ratio: 1 / 1; }
+  .recipe-panel .recipe-media { flex: none; }
+  .recipe-panel .recipe-media img { height: auto; max-height: 72dvh; }
   .recipe-content { overflow: visible; padding: 22px 18px 40px; }
   .recipe-content h2 { font-size: 26px; margin-right: 0; }
   .recipe-stats { flex-wrap: wrap; }
