@@ -61,6 +61,7 @@ const OPTIONS = {
     { id: 'torontel', zh: 'Torontel', en: 'Torontel' },
     { id: 'moscatel', zh: 'Moscatel', en: 'Moscatel' },
     { id: 'albilla', zh: 'Albilla', en: 'Albilla' },
+    { id: 'acholado', zh: 'Acholado', en: 'Acholado' },
     { id: 'unknown', zh: '不確定', en: 'Not sure' },
   ],
 };

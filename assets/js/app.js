@@ -527,12 +527,13 @@
     applyGrapeLimit();
   }
 
-  // 依品牌限制可選的葡萄品種：La Caravedo 只有 Quebranta、Torontel；Portón 沒有 Uvina
-  const BRAND_GRAPES = { caravedo: ['quebranta', 'torontel'], porton: OPTIONS.grape.map((o) => o.id).filter((id) => id !== 'uvina') };
+  // 依品牌限制可選的葡萄品種：La Caravedo 只有 Quebranta、Torontel；Portón 沒有 Uvina，但多了 Acholado（只有 Portón 有）
+  const ALL_GRAPES = OPTIONS.grape.map((o) => o.id);
+  const BRAND_GRAPES = { caravedo: ['quebranta', 'torontel'], porton: ALL_GRAPES.filter((id) => id !== 'uvina') };
   function applyGrapeLimit() {
-    const allowed = BRAND_GRAPES[form.elements.brand.value];
+    const allowed = BRAND_GRAPES[form.elements.brand.value] || ALL_GRAPES.filter((id) => id !== 'acholado');
     document.querySelectorAll('#checks-grape input').forEach((input) => {
-      const ok = !allowed || allowed.includes(input.value);
+      const ok = allowed.includes(input.value);
       input.closest('.check-pill').hidden = !ok;
       if (!ok) input.checked = false;
     });

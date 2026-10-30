@@ -43,7 +43,7 @@ COLUMNS.forEach(([key], i) => { COL[key] = i + 1; });
 const ALLOWED = {
   brand: ['porton', 'caravedo', 'other'],
   piscoType: ['puro', 'mostoverde', 'acholado'],
-  grapes: ['quebranta', 'negracriolla', 'mollar', 'uvina', 'italia', 'torontel', 'moscatel', 'albilla', 'unknown'],
+  grapes: ['quebranta', 'negracriolla', 'mollar', 'uvina', 'italia', 'torontel', 'moscatel', 'albilla', 'acholado', 'unknown'],
   flavors: ['sweetsour', 'strong', 'sparkling'],
 };
 
