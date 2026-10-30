@@ -23,9 +23,13 @@
       }
     }
     state.recipes.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+    // 彎引號（’）在中文字型下會變成全形、間隔很大，統一換成英文直引號
+    const fixQuotes = (o) => ['name', 'bartender', 'bar'].forEach((k) => { if (o && typeof o[k] === 'string') o[k] = o[k].replace(/[‘’]/g, "'"); });
     state.recipes.forEach((r) => {
       const c = countyInfo(r.county);
       r.region = c ? c.region : '';
+      fixQuotes(r);
+      fixQuotes(r.en);
     });
   }
 
