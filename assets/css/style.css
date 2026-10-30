@@ -259,7 +259,10 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
 .modal-close svg { width: 20px; height: 20px; }
 
 /* 酒譜照片：完整置中顯示不裁切，空白處用同一張照片模糊當背景 */
-.recipe-panel .recipe-media { flex: 0 0 46%; background: var(--bg-3); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+/* 電腦版：視窗固定高度，照片欄寬度跟著照片比例走，照片剛好塞滿不留邊也不裁切 */
+/* 比較寬的照片（例如正方形）把視窗高度調低一點，照片欄不超過 62% 寬也能塞滿 */
+.recipe-panel { height: min(760px, calc(100dvh - 48px), calc(min(1000px, 100vw - 48px) * .62 / var(--rn, .8))); }
+.recipe-panel .recipe-media { flex: 0 0 auto; height: 100%; aspect-ratio: var(--ratio, 4 / 5); min-width: 32%; max-width: 62%; background: var(--bg-3); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 .recipe-panel .recipe-media::before { content: ""; position: absolute; inset: -40px; background: var(--photo) center / cover no-repeat; filter: blur(28px) brightness(.85); }
 .recipe-panel .recipe-media img { position: relative; width: 100%; height: 100%; object-fit: contain; }
 .recipe-content { flex: 1; overflow-y: auto; padding: 40px 40px 40px; }
@@ -296,7 +299,8 @@ dialog[open] .modal-panel { animation: rise .25s ease; }
 @media (max-width: 760px) {
   dialog { margin: 0; width: 100%; height: 100%; max-height: 100dvh; }
   .modal-panel { width: 100%; height: 100dvh; max-height: 100dvh; flex-direction: column; overflow-y: auto; }
-  .recipe-panel .recipe-media { flex: none; }
+  .recipe-panel { height: 100dvh; }
+  .recipe-panel .recipe-media { flex: none; height: auto; aspect-ratio: auto; min-width: 0; max-width: none; }
   .recipe-panel .recipe-media img { height: auto; max-height: 72dvh; }
   .recipe-content { overflow: visible; padding: 22px 18px 40px; }
   .recipe-content h2 { font-size: 26px; margin-right: 0; }

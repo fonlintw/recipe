@@ -345,6 +345,17 @@
     media.innerHTML = `<img src="${escapeHtml(r.photo)}" alt="${escapeHtml(r.name)}">`;
     // 同一張照片模糊後當背景，照片完整置中顯示、不裁切
     media.style.setProperty('--photo', `url("${String(r.photo).replace(/["\\]/g, '')}")`);
+    // 照片欄寬度依照片比例調整（電腦版）
+    const panel = recipeModal.querySelector('.recipe-panel');
+    media.style.removeProperty('--ratio');
+    panel.style.removeProperty('--rn');
+    const img = media.querySelector('img');
+    const setRatio = () => {
+      if (!img.naturalWidth) return;
+      media.style.setProperty('--ratio', img.naturalWidth + ' / ' + img.naturalHeight);
+      panel.style.setProperty('--rn', (img.naturalWidth / img.naturalHeight).toFixed(3));
+    };
+    if (img.complete) setRatio(); else img.addEventListener('load', setRatio, { once: true });
     recipeModal.querySelector('.recipe-content').innerHTML = `
       <div class="card-tags">${(r.badges || []).map((b) => `<span class="tag tag-badge${badgeClass(b)}">${escapeHtml(badgeLabel(b))}</span>`).join('')}${(r.flavors || []).map((f) => `<span class="tag">${escapeHtml(optLabel('flavor', f))}</span>`).join('')}</div>
       <h2 id="recipeTitle">${escapeHtml(r.name)}</h2>
